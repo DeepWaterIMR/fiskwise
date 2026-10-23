@@ -66,7 +66,7 @@ class LifecycleTest(unittest.TestCase):
         subprocess.run(["git", "-C", str(path), "commit", "-m", "initial"], check=True, capture_output=True)
 
     def attach_local_bare_remote(self, path, bare):
-        subprocess.run(["git", "init", "--bare", str(bare)], check=True, capture_output=True)
+        subprocess.run(["git", "init", "--bare", "-b", "main", str(bare)], check=True, capture_output=True)
         subprocess.run(["git", "-C", str(path), "remote", "add", "origin", str(bare)], check=True)
         subprocess.run(["git", "-C", str(path), "push", "-u", "origin", "main"], check=True, capture_output=True)
 

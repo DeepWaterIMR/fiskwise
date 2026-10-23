@@ -96,7 +96,9 @@ and the dedicated HTML/CSS getting-started guide. No release tags are created.
 | spict-wise | [ebf660b](https://github.com/DeepWaterIMR/spict-wise/commit/ebf660b) | existing 0.2.0 |
 | wise-presentations shared loader | [3750511](https://github.com/DeepWaterIMR/wise-presentations/commit/3750511) | revision-based pack |
 | wise-presentations documentation | [4785388](https://github.com/DeepWaterIMR/wise-presentations/commit/4785388) | website package 0.1.0 |
-| Fiskwise | commit containing this ledger section | 0.1.0 |
+| wise-presentations render preflight | [aca04f8](https://github.com/DeepWaterIMR/wise-presentations/commit/aca04f8) | revision-based pack |
+| Fiskwise initial lifecycle | [e053d82](https://github.com/DeepWaterIMR/fiskwise/commit/e053d82) | 0.1.0 |
+| Fiskwise integration verification | commit containing this ledger update | 0.1.1 |
 
 Checkouts retain their canonical sibling paths in the AI-packages workspace. Home-only
 records contain exact paths, backups and revisions. Claude/Codex canonical registrations
@@ -126,3 +128,9 @@ Biotic database. macOS Trash removal is not exercised against user data. Explici
 stop automatic package apply for manual dependency review; missing/offline metadata is
 reported as unknown. System tool installation remains an agent-guided, separately approved
 operation. See [lifecycle contracts](docs/LIFECYCLE.md) and [project migration](MIGRATION.md).
+
+Integration follow-up: the full presentation sampler rendered to an isolated output
+(5.1 MB HTML) after correcting the starter's package vector type; the installer now
+executes that declaration against the shared loader with mocked availability. GitHub CI
+also exposed a host-default-branch assumption in synthetic bare remotes; fixtures now
+set their initial branch explicitly, tested with a forced `master` host default.
