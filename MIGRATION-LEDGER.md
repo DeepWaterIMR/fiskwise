@@ -89,7 +89,8 @@ and the dedicated HTML/CSS getting-started guide. No release tags are created.
 
 | Component | Standardization revision | Version |
 |---|---|---|
-| wise-writing | [39ab957](https://github.com/DeepWaterIMR/wise-writing/commit/39ab957) | 0.1.20 |
+| wise-writing shared ownership | [39ab957](https://github.com/DeepWaterIMR/wise-writing/commit/39ab957) | 0.1.20 |
+| wise-writing R interface compatibility | [d0e99a9](https://github.com/DeepWaterIMR/wise-writing/commit/d0e99a9) | 0.1.21 |
 | BAIT shared ownership | [5e4fdb4](https://github.com/DeepWaterIMR/BAIT/commit/5e4fdb4) | 0.2.15 |
 | BAIT documentation | [e4bb57c](https://github.com/DeepWaterIMR/BAIT/commit/e4bb57c) | 0.2.16 |
 | index-wise | [90edf09](https://github.com/DeepWaterIMR/index-wise/commit/90edf09) | existing 0.2.0 |
@@ -98,7 +99,8 @@ and the dedicated HTML/CSS getting-started guide. No release tags are created.
 | wise-presentations documentation | [4785388](https://github.com/DeepWaterIMR/wise-presentations/commit/4785388) | website package 0.1.0 |
 | wise-presentations render preflight | [aca04f8](https://github.com/DeepWaterIMR/wise-presentations/commit/aca04f8) | revision-based pack |
 | Fiskwise initial lifecycle | [e053d82](https://github.com/DeepWaterIMR/fiskwise/commit/e053d82) | 0.1.0 |
-| Fiskwise integration verification | commit containing this ledger update | 0.1.1 |
+| Fiskwise integration verification | [bc75700](https://github.com/DeepWaterIMR/fiskwise/commit/bc75700) | 0.1.1 |
+| Fiskwise final compatibility ledger | commit containing this ledger update | 0.1.2 |
 
 Checkouts retain their canonical sibling paths in the AI-packages workspace. Home-only
 records contain exact paths, backups and revisions. Claude/Codex canonical registrations
@@ -134,3 +136,12 @@ Integration follow-up: the full presentation sampler rendered to an isolated out
 executes that declaration against the shared loader with mocked availability. GitHub CI
 also exposed a host-default-branch assumption in synthetic bare remotes; fixtures now
 set their initial branch explicitly, tested with a forced `master` host default.
+
+All three Pages workflows passed after integration fixes. Live Fiskwise desktop/mobile/
+narrow browser checks passed (9 tests); the hub, getting-started guide, badge, wordmark,
+CSS, BAIT guide and both R-package documentation sites returned HTTP 200. Core text and
+button color pairs meet WCAG AA normal-text contrast. The presentation deployment also
+passed sampler capture and its desktop/mobile acceptance tests. The final compatibility
+review retained wise-writing's `install_packages_if_missing(pkgs)` entry point as a
+consent-aware wrapper, with an executable regression test. Local installation records
+include the final revisions. All six checkouts are clean after publication.

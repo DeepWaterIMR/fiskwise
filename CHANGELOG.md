@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 — 2026-10-23
+
+- Record successful coordinated deployment and legacy R-interface compatibility validation.
+
 ## 0.1.1 — 2026-10-23
 
 - Make local Git fixtures independent of the host default branch and record final integration validation.
