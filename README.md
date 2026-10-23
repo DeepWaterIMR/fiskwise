@@ -1,0 +1,63 @@
+# Fiskwise — Agentic AI tools for fisheries science
+
+[![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-087F8C.svg)](LICENSE)
+
+**[Explore the Fiskwise website](https://deepwaterimr.github.io/fiskwise/)**
+
+Fiskwise brings together AI skills, scientific knowledge, and R tools to help researchers
+conduct fisheries science with agents such as Claude Code and Codex. Its knowledge packs
+guide data preparation, analysis, modelling, scientific writing, and presentation, with
+researchers directing the work and evaluating the results.
+
+The ecosystem builds on **R**, **tidyverse**, and **Quarto**. The name combines **FISK —
+Fisheries Intelligence Skill Kit** with *wise*, and draws on the Scandinavian word *fisk*.
+Developed at the Institute of Marine Research, Norway, its components can be used
+independently or together. Raw confidential data must remain local.
+
+## AI knowledge packs
+
+| Pack | Purpose | Documentation |
+|---|---|---|
+| [wise-writing](https://github.com/DeepWaterIMR/wise-writing) | Scientific writing, reproducible documents, and review | Repository |
+| [wise-presentations](https://github.com/DeepWaterIMR/wise-presentations) | Scientific presentation planning, creation, and visual review | [Learning hub](https://deepwaterimr.github.io/wise-presentations/) |
+| [BAIT](https://github.com/DeepWaterIMR/BAIT) | Access, preparation, analysis, and visualization of IMR Biotic data | [Documentation](https://deepwaterimr.github.io/BAIT/) |
+| [index-wise](https://github.com/DeepWaterIMR/index-wise) | Development, validation, and reporting of survey indices using sdmTMB | Repository |
+| [spict-wise](https://github.com/DeepWaterIMR/spict-wise) | SPiCT stock assessments, diagnostics, sensitivity analyses, and advice | Repository |
+| [gadget-wise](https://github.com/DeepWaterIMR/gadget-wise) | Fisheries models using gadget3 — **planned; empty repository** | Not available yet |
+
+## R packages
+
+| Package | Purpose |
+|---|---|
+| [ggOceanMaps](https://mikkovihtakari.github.io/ggOceanMaps/) | Ocean maps with bathymetry |
+| [ggFishPlots](https://deepwaterimr.github.io/ggFishPlots/) | Fish life-history relationships |
+| ggSurveyPlots — **planned** | Fisheries survey visualization |
+
+For installation, follow the selected pack's README with your agent. Existing skill IDs
+remain stable; see the [migration guide](MIGRATION.md). Cite the underlying methods and
+software using each component's own citation instructions. This hub has no scholarly DOI.
+
+## Website and shared theme
+
+The hub uses hand-authored HTML/CSS, with no JavaScript framework or Quarto dependency.
+The build uses only Python's standard library:
+
+```sh
+python3 scripts/build_site.py
+python3 scripts/check_site.py
+python3 -m unittest discover -s tests
+python3 -m http.server 8080 --directory dist
+```
+
+GitHub Actions builds and publishes `dist/` to GitHub Pages. `packages.json` is the
+component inventory. [BRAND.md](BRAND.md) documents the shared SVG assets, design tokens,
+and synchronization with existing pack websites. Scientific document and slide themes
+are maintained independently.
+
+Optional responsive and keyboard browser checks use Playwright: run `npm ci`,
+`npx playwright install chromium`, then `npm run test:browser` with the preview server
+running. The site build and deployment do not require Node.js or Playwright.
+
+[Contributing](CONTRIBUTING.md) · [Migration](MIGRATION.md) · [Brand assets](BRAND.md) ·
+[Migration ledger](MIGRATION-LEDGER.md) · [Hub license](LICENSE)
