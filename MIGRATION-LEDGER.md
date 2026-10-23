@@ -100,7 +100,8 @@ and the dedicated HTML/CSS getting-started guide. No release tags are created.
 | wise-presentations render preflight | [aca04f8](https://github.com/DeepWaterIMR/wise-presentations/commit/aca04f8) | revision-based pack |
 | Fiskwise initial lifecycle | [e053d82](https://github.com/DeepWaterIMR/fiskwise/commit/e053d82) | 0.1.0 |
 | Fiskwise integration verification | [bc75700](https://github.com/DeepWaterIMR/fiskwise/commit/bc75700) | 0.1.1 |
-| Fiskwise final compatibility ledger | commit containing this ledger update | 0.1.2 |
+| Fiskwise compatibility ledger | [263a2c9](https://github.com/DeepWaterIMR/fiskwise/commit/263a2c9) | 0.1.2 |
+| Fiskwise stable/development toolchain checks | commit containing this ledger update | 0.1.3 |
 
 Checkouts retain their canonical sibling paths in the AI-packages workspace. Home-only
 records contain exact paths, backups and revisions. Claude/Codex canonical registrations
@@ -109,7 +110,7 @@ excluded. Existing components and database are adopted; R-package permission rem
 unset. No R/system packages were installed, no real Biotic data was read, and no historical
 research projects or memory histories were changed.
 
-Validation: 32 isolated Python tests (including R fixture tests when R/jsonlite are
+Validation: 33 isolated Python tests (including R fixture tests when R/jsonlite are
 available); writing's 15-skill validator and package-policy/scaffold tests; index and
 SPiCT scaffold checks; presentation skill/helper/installer checks, lint, Pages build and
 4 browser tests; BAIT's four-page Quarto render; hub build/link/asset/version checks and
@@ -145,3 +146,6 @@ passed sampler capture and its desktop/mobile acceptance tests. The final compat
 review retained wise-writing's `install_packages_if_missing(pkgs)` entry point as a
 consent-aware wrapper, with an executable regression test. Local installation records
 include the final revisions. All six checkouts are clean after publication.
+
+Runtime checks preserve prerelease/development toolchains and installed versions newer
+than known stable metadata; they never recommend downgrading them as obsolete R.

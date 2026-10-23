@@ -110,10 +110,15 @@ def release_action(current: str | None, versions: Iterable[str] | None) -> str:
         return "unknown"
     versions = list(versions)
     latest = versions[0]
+    if re.search(r"(?:dev|alpha|beta|rc|unstable|development)", current, re.I) or re.search(r"\d+\.\d+\.\d+[-+]", current):
+        return "development/prerelease selected; preserve and review project requirements"
     lines = stable_lines(versions)
     match = re.match(r"v?(\d+)\.(\d+)\.(\d+)", current)
     if not match:
         return "unknown"
+    latest_match = re.match(r"v?(\d+)\.(\d+)\.(\d+)", latest)
+    if tuple(map(int, match.groups())) > tuple(map(int, latest_match.groups())):
+        return "newer than known stable metadata; preserve selected version"
     current_line = ".".join(match.groups()[:2])
     if current_line not in lines:
         return f"upgrade to {latest} (outside newest two stable lines)"

@@ -53,6 +53,13 @@ class StableReleaseTests(unittest.TestCase):
         self.assertIn("supported older stable line", runtime.release_action("4.5.0", versions))
         self.assertIn("outside newest two", runtime.release_action("4.4.3", versions))
 
+    def test_selected_development_and_newer_versions_are_preserved(self):
+        versions = ["4.6.1", "4.5.3"]
+        for selected in ["4.7.0-dev", "4.7.0-rc1", "R Under development (unstable)"]:
+            self.assertIn("preserve", runtime.release_action(selected, versions))
+            self.assertNotIn("upgrade", runtime.release_action(selected, versions))
+        self.assertIn("preserve", runtime.release_action("4.7.0", versions))
+
     def test_offline_inspection_marks_remote_data_unknown(self):
         with patch.object(runtime, "run_version", return_value=None), \
              patch.object(runtime, "user_library", return_value={"configured": None, "existing": None, "writable": False}):

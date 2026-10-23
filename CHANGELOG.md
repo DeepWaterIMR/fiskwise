@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 — 2026-10-23
+
+- Preserve selected development/prerelease toolchains and versions newer than stable metadata during runtime checks.
+
 ## 0.1.2 — 2026-10-23
 
 - Record successful coordinated deployment and legacy R-interface compatibility validation.
