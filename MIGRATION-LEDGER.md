@@ -51,3 +51,32 @@ The hub uses HTML/CSS rather than Quarto, following the implementation-stage des
 R package documentation sites were linked, not rethemed. Historical notes and generated
 research projects were preserved. Current index-pack memory-sync source paths were repaired
 without running synchronization or rewriting historical destinations.
+
+## Final component revisions and live checks
+
+| Component | Final migration revision |
+|---|---|
+| BAIT | [1772895](https://github.com/DeepWaterIMR/BAIT/commit/1772895) |
+| wise-writing | [41977e5](https://github.com/DeepWaterIMR/wise-writing/commit/41977e5) |
+| wise-presentations | [3dc5d95](https://github.com/DeepWaterIMR/wise-presentations/commit/3dc5d95) |
+| index-wise | [4c449c9](https://github.com/DeepWaterIMR/index-wise/commit/4c449c9) |
+| spict-wise | [b286ec7](https://github.com/DeepWaterIMR/spict-wise/commit/b286ec7) |
+
+Initial hub publication: [c90f84c](https://github.com/DeepWaterIMR/fiskwise/commit/c90f84c).
+The final component revisions above include consistent ecosystem routing and safe updates
+for global skill links. The four executable Unix sync examples were each tested twice in
+isolated homes with conflicting copies, legacy symlinks, and unrelated skills. Windows
+examples received static review; Windows execution was not available on this Mac.
+
+All three Pages deployment workflows completed successfully. Live HTTP checks returned
+200 for [Fiskwise](https://deepwaterimr.github.io/fiskwise/), its shared membership badge,
+[BAIT](https://deepwaterimr.github.io/BAIT/), and
+[wise-presentations](https://deepwaterimr.github.io/wise-presentations/). Both linked R
+package documentation sites also returned 200. The old
+`https://deepwaterimr.github.io/presentation-template/` URL returned **404**, so external
+links to that website must be updated explicitly; no old-name repository was recreated.
+
+`gadget-wise` is public, reports size zero, and its commits API returns HTTP 409 for an empty
+repository. It has no README, commits, or workflows. A repeat local migration dry run reports
+no changes. Initial and final repository IDs match, and all six working checkouts are clean
+after publication. Existing licenses and scientific APIs were preserved.
