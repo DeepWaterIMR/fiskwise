@@ -56,10 +56,10 @@ without running synchronization or rewriting historical destinations.
 
 | Component | Final migration revision |
 |---|---|
-| BAIT | [1772895](https://github.com/DeepWaterIMR/BAIT/commit/1772895) |
+| BAIT | [ea6125f](https://github.com/DeepWaterIMR/BAIT/commit/ea6125f) |
 | wise-writing | [41977e5](https://github.com/DeepWaterIMR/wise-writing/commit/41977e5) |
 | wise-presentations | [3dc5d95](https://github.com/DeepWaterIMR/wise-presentations/commit/3dc5d95) |
-| index-wise | [4c449c9](https://github.com/DeepWaterIMR/index-wise/commit/4c449c9) |
+| index-wise | [04578ab](https://github.com/DeepWaterIMR/index-wise/commit/04578ab) |
 | spict-wise | [b286ec7](https://github.com/DeepWaterIMR/spict-wise/commit/b286ec7) |
 
 Initial hub publication: [c90f84c](https://github.com/DeepWaterIMR/fiskwise/commit/c90f84c).

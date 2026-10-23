@@ -90,7 +90,7 @@ class Migration:
             for agent in ['.claude', '.agents']:
                 self.managed_link(self.home / agent / 'skills' / name, source)
             self.managed_link(self.home / '.codex/skills' / name, source, retire=True)
-        for agent in ['.claude', '.codex']:
+        for agent in ['.claude', '.agents', '.codex']:
             self.managed_link(self.home / agent / 'knowledge', self.workspace / 'BAIT/knowledge')
 
         lines = ['## Fiskwise ecosystem', '',

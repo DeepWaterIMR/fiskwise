@@ -53,6 +53,7 @@ class LocalMigrationTest(unittest.TestCase):
             self.assertEqual((backup / '.codex/skills/BAIT-skill/SKILL.md').read_text(), 'customized legacy copy')
             self.assertEqual((unrelated / 'SKILL.md').read_text(), 'untouched')
             self.assertTrue((home / '.claude/knowledge').is_dir())
+            self.assertTrue((home / '.agents/knowledge').is_dir())
             self.assertIn('Original user instructions', (home / '.claude/CLAUDE.md').read_text())
             self.assertEqual(mod.Migration(workspace, home, root / 'backup2', True).run(), [])
 
