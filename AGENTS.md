@@ -15,3 +15,15 @@ Read `packages.json` for canonical component names, destinations, and status.
 - GitHub Pages is the host. Do not register or publish a separate Sites-hosted project.
 
 Source changes may be delegated by component; the lead handles integration and publication.
+
+## Lifecycle ownership
+
+Read `skills/fiskwise-workflow/SKILL.md` for Fiskwise research routing and shared
+standards; always load wise-writing's `r-code-style` before editing R. Read the
+matching fiskwise-install/update/uninstall skill for lifecycle work and
+`docs/LIFECYCLE.md` for registry contracts. Skills bootstrap before R. Saved
+revocable consent is required for managed R packages; system software and BAIT
+data setup have separate choices. Preserve adopted resources and customizations.
+Do not duplicate wise-writing reporting/package-loading implementations in packs.
+Delegate only when expected total cost (including context and review) is lower.
+Generic knowledge skills and template-free modes remain deferred.

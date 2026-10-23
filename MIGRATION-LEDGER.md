@@ -80,3 +80,49 @@ links to that website must be updated explicitly; no old-name repository was rec
 repository. It has no README, commits, or workflows. A repeat local migration dry run reports
 no changes. Initial and final repository IDs match, and all six working checkouts are clean
 after publication. Existing licenses and scientific APIs were preserved.
+
+## Lifecycle standardization — 23 October 2026
+
+This release adds Fiskwise **0.1.0**, its four coordinator skills, an ownership registry,
+revocable managed-package permission, recoverable removal, automatic version stamping,
+and the dedicated HTML/CSS getting-started guide. No release tags are created.
+
+| Component | Standardization revision | Version |
+|---|---|---|
+| wise-writing | [39ab957](https://github.com/DeepWaterIMR/wise-writing/commit/39ab957) | 0.1.20 |
+| BAIT shared ownership | [5e4fdb4](https://github.com/DeepWaterIMR/BAIT/commit/5e4fdb4) | 0.2.15 |
+| BAIT documentation | [e4bb57c](https://github.com/DeepWaterIMR/BAIT/commit/e4bb57c) | 0.2.16 |
+| index-wise | [90edf09](https://github.com/DeepWaterIMR/index-wise/commit/90edf09) | existing 0.2.0 |
+| spict-wise | [ebf660b](https://github.com/DeepWaterIMR/spict-wise/commit/ebf660b) | existing 0.2.0 |
+| wise-presentations shared loader | [3750511](https://github.com/DeepWaterIMR/wise-presentations/commit/3750511) | revision-based pack |
+| wise-presentations documentation | [4785388](https://github.com/DeepWaterIMR/wise-presentations/commit/4785388) | website package 0.1.0 |
+| Fiskwise | commit containing this ledger section | 0.1.0 |
+
+Checkouts retain their canonical sibling paths in the AI-packages workspace. Home-only
+records contain exact paths, backups and revisions. Claude/Codex canonical registrations
+now point shared reporting/package skills to wise-writing, with BAIT forwarding pointers
+excluded. Existing components and database are adopted; R-package permission remains
+unset. No R/system packages were installed, no real Biotic data was read, and no historical
+research projects or memory histories were changed.
+
+Validation: 32 isolated Python tests (including R fixture tests when R/jsonlite are
+available); writing's 15-skill validator and package-policy/scaffold tests; index and
+SPiCT scaffold checks; presentation skill/helper/installer checks, lint, Pages build and
+4 browser tests; BAIT's four-page Quarto render; hub build/link/asset/version checks and
+9 desktop/mobile/narrow browser tests. Runtime services are mocked in tests. Version tests
+cover ordinary/manual bumps, merge/rebase skips and unstaged README preservation; site
+tests confirm builds leave VERSION and page sources unchanged.
+
+Publication targets: [Fiskwise](https://deepwaterimr.github.io/fiskwise/),
+[getting started](https://deepwaterimr.github.io/fiskwise/getting-started.html),
+[BAIT](https://deepwaterimr.github.io/BAIT/getting-started.html), and
+[wise-presentations](https://deepwaterimr.github.io/wise-presentations/). Dependency
+commits publish first, then Fiskwise, then the two pack documentation updates.
+
+Platform limits: Windows link-copy fallback and refusal paths are tested synthetically
+on macOS; native Windows Recycle Bin and compiler detection need a Windows runner. Database
+recovery tests use synthetic files and explicit same-filesystem quarantine, never a real
+Biotic database. macOS Trash removal is not exercised against user data. Explicit R pins
+stop automatic package apply for manual dependency review; missing/offline metadata is
+reported as unknown. System tool installation remains an agent-guided, separately approved
+operation. See [lifecycle contracts](docs/LIFECYCLE.md) and [project migration](MIGRATION.md).

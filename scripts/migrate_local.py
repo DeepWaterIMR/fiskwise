@@ -3,6 +3,7 @@ from pathlib import Path
 import argparse
 import datetime
 import json
+import re
 import shutil
 
 RENAMES = {'academic-writing': 'wise-writing', 'presentation-template': 'wise-presentations',
@@ -83,6 +84,8 @@ class Migration:
             source = self.workspace / pack / ('skills' if pack != 'wise-presentations' else '.agents/skills')
             for skill in sorted(source.iterdir()):
                 if skill.is_dir() and (skill / 'SKILL.md').exists():
+                    if re.search(r'^\s*forwarding:\s*true\s*$', (skill / 'SKILL.md').read_text(), re.M):
+                        continue
                     if skill.name in owned:
                         raise ValueError(f'Duplicate managed skill: {skill.name}')
                     owned[skill.name] = skill

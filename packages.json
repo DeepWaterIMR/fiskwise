@@ -1,11 +1,365 @@
 [
-  {"name":"wise-writing","kind":"knowledge","label":"Write with a reproducible foundation","purpose":"Scientific writing, reproducible documents, and review.","detail":"Structure manuscripts, data reports, cruise reports, assessments, advice sheets, and benchmarks with shared writing conventions and Quarto templates.","repo":"https://github.com/DeepWaterIMR/wise-writing","site":null,"status":"available","icon":"writing","accent":"#5360A5","skills":"academic-*; scientific-quarto-review","install":"Install https://github.com/DeepWaterIMR/wise-writing","owner":"DeepWaterIMR","license":"https://github.com/DeepWaterIMR/wise-writing/blob/main/LICENSE"},
-  {"name":"wise-presentations","kind":"knowledge","label":"Turn a scientific story into slides","purpose":"Scientific presentation planning, creation, and visual review.","detail":"Plan the story, choose supported layouts, create reproducible scientific slides, and inspect the rendered presentation before delivery.","repo":"https://github.com/DeepWaterIMR/wise-presentations","site":"https://deepwaterimr.github.io/wise-presentations/","status":"available","icon":"presentations","accent":"#9C572B","skills":"make-presentation; review-presentation; maintain-presentation-template","install":null,"owner":"DeepWaterIMR","license":"https://github.com/DeepWaterIMR/wise-presentations/blob/main/LICENSE"},
-  {"name":"BAIT","kind":"knowledge","label":"Work with Biotic data locally","purpose":"Access, preparation, analysis, and visualization of IMR Biotic data.","detail":"Connect to local data, prepare survey catches, explore maps and life histories, and follow documented confidentiality and sampling rules.","repo":"https://github.com/DeepWaterIMR/BAIT","site":"https://deepwaterimr.github.io/BAIT/","status":"available","icon":"biotic","accent":"#087F8C","skills":"bait-*; biotic-*","install":"Install https://github.com/DeepWaterIMR/BAIT","owner":"DeepWaterIMR","license":"https://github.com/DeepWaterIMR/BAIT/blob/main/LICENSE"},
-  {"name":"index-wise","kind":"knowledge","label":"Build and evaluate survey indices","purpose":"Development, validation, and reporting of survey indices using sdmTMB.","detail":"Move from qualified survey observations to a first model, validation, sensitivity analysis, and an index report. Uses BAIT for Biotic data and wise-writing conventions.","repo":"https://github.com/DeepWaterIMR/index-wise","site":null,"status":"available","icon":"index","accent":"#426D46","skills":"index-*","install":"Install https://github.com/DeepWaterIMR/index-wise","owner":"DeepWaterIMR","license":"https://github.com/DeepWaterIMR/index-wise/blob/main/LICENSE"},
-  {"name":"spict-wise","kind":"knowledge","label":"Document a stock assessment","purpose":"SPiCT stock assessments, diagnostics, sensitivity analyses, and advice.","detail":"Prepare assessment inputs, fit and diagnose SPiCT models, explore alternatives, and produce reports and advice using wise-writing.","repo":"https://github.com/DeepWaterIMR/spict-wise","site":null,"status":"available","icon":"assessment","accent":"#66558D","skills":"spict-*","install":"Install https://github.com/DeepWaterIMR/spict-wise","owner":"DeepWaterIMR","license":"https://github.com/DeepWaterIMR/spict-wise/blob/main/LICENSE"},
-  {"name":"gadget-wise","kind":"knowledge","label":"Fisheries models with gadget3","purpose":"A planned knowledge pack for developing fisheries models using gadget3.","detail":"The repository is reserved for future development. No installable knowledge pack is available yet.","repo":"https://github.com/DeepWaterIMR/gadget-wise","site":null,"status":"planned","icon":"gadget","accent":"#64748B","skills":null,"install":null,"owner":"DeepWaterIMR","license":null},
-  {"name":"ggOceanMaps","kind":"r","purpose":"Plot scientific data on ocean maps with bathymetry.","repo":"https://github.com/MikkoVihtakari/ggOceanMaps","site":"https://mikkovihtakari.github.io/ggOceanMaps/","status":"available","icon":"maps","owner":"MikkoVihtakari","license":"https://github.com/MikkoVihtakari/ggOceanMaps/blob/master/LICENSE"},
-  {"name":"ggFishPlots","kind":"r","purpose":"Estimate and visualize fish life-history relationships.","repo":"https://github.com/DeepWaterIMR/ggFishPlots","site":"https://deepwaterimr.github.io/ggFishPlots/","status":"available","icon":"fishplots","owner":"DeepWaterIMR","license":"https://github.com/DeepWaterIMR/ggFishPlots/blob/master/LICENSE"},
-  {"name":"ggSurveyPlots","kind":"r","purpose":"Visualization of fisheries survey data.","repo":null,"site":null,"status":"planned","icon":"survey","owner":null,"license":null}
+  {
+    "name": "wise-writing",
+    "kind": "knowledge",
+    "label": "Write with a reproducible foundation",
+    "purpose": "Scientific writing, reproducible documents, and review.",
+    "detail": "Structure manuscripts, data reports, cruise reports, assessments, advice sheets, and benchmarks with shared writing conventions and Quarto templates.",
+    "repo": "https://github.com/DeepWaterIMR/wise-writing",
+    "site": null,
+    "status": "available",
+    "icon": "writing",
+    "accent": "#5360A5",
+    "skills": "academic-*; scientific-quarto-review; r-code-style; r-package-setup; quarto-reporting",
+    "install": "Install https://github.com/DeepWaterIMR/wise-writing",
+    "owner": "DeepWaterIMR",
+    "license": "https://github.com/DeepWaterIMR/wise-writing/blob/main/LICENSE",
+    "core": true,
+    "dependencies": [],
+    "skill_roots": [
+      "skills"
+    ],
+    "install_skill": "academic-writing-install",
+    "update_skill": "academic-writing-update",
+    "r_packages": [
+      {
+        "name": "tidyverse",
+        "source": "CRAN"
+      },
+      {
+        "name": "quarto",
+        "source": "CRAN"
+      },
+      {
+        "name": "knitr",
+        "source": "CRAN"
+      },
+      {
+        "name": "yaml",
+        "source": "CRAN"
+      },
+      {
+        "name": "jsonlite",
+        "source": "CRAN"
+      },
+      {
+        "name": "here",
+        "source": "CRAN"
+      },
+      {
+        "name": "sf",
+        "source": "CRAN"
+      },
+      {
+        "name": "scales",
+        "source": "CRAN"
+      },
+      {
+        "name": "cowplot",
+        "source": "CRAN"
+      },
+      {
+        "name": "ggspatial",
+        "source": "CRAN"
+      },
+      {
+        "name": "ggnewscale",
+        "source": "CRAN"
+      },
+      {
+        "name": "flextable",
+        "source": "CRAN"
+      },
+      {
+        "name": "kableExtra",
+        "source": "CRAN"
+      },
+      {
+        "name": "readxl",
+        "source": "CRAN"
+      },
+      {
+        "name": "zip",
+        "source": "CRAN"
+      }
+    ],
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "wise-presentations",
+    "kind": "knowledge",
+    "label": "Turn a scientific story into slides",
+    "purpose": "Scientific presentation planning, creation, and visual review.",
+    "detail": "Plan the story, choose supported layouts, create reproducible scientific slides, and inspect the rendered presentation before delivery.",
+    "repo": "https://github.com/DeepWaterIMR/wise-presentations",
+    "site": "https://deepwaterimr.github.io/wise-presentations/",
+    "status": "available",
+    "icon": "presentations",
+    "accent": "#9C572B",
+    "skills": "make-presentation; review-presentation; maintain-presentation-template",
+    "install": null,
+    "owner": "DeepWaterIMR",
+    "license": "https://github.com/DeepWaterIMR/wise-presentations/blob/main/LICENSE",
+    "core": true,
+    "dependencies": [
+      "wise-writing"
+    ],
+    "skill_roots": [
+      ".agents/skills"
+    ],
+    "install_skill": null,
+    "update_skill": null,
+    "install_script": "scripts/install_global_skills.R",
+    "r_packages": [
+      {
+        "name": "quarto",
+        "source": "CRAN"
+      },
+      {
+        "name": "yaml",
+        "source": "CRAN"
+      },
+      {
+        "name": "ggplot2",
+        "source": "CRAN"
+      },
+      {
+        "name": "ragg",
+        "source": "CRAN"
+      },
+      {
+        "name": "systemfonts",
+        "source": "CRAN"
+      }
+    ],
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "BAIT",
+    "kind": "knowledge",
+    "label": "Work with Biotic data locally",
+    "purpose": "Access, preparation, analysis, and visualization of IMR Biotic data.",
+    "detail": "Connect to local data, prepare survey catches, explore maps and life histories, and follow documented confidentiality and sampling rules.",
+    "repo": "https://github.com/DeepWaterIMR/BAIT",
+    "site": "https://deepwaterimr.github.io/BAIT/",
+    "status": "available",
+    "icon": "biotic",
+    "accent": "#087F8C",
+    "skills": "bait-*; biotic-*",
+    "install": "Install https://github.com/DeepWaterIMR/BAIT",
+    "owner": "DeepWaterIMR",
+    "license": "https://github.com/DeepWaterIMR/BAIT/blob/main/LICENSE",
+    "core": false,
+    "dependencies": [
+      "wise-writing"
+    ],
+    "skill_roots": [
+      "skills"
+    ],
+    "install_skill": "bait-install",
+    "update_skill": "bait-update",
+    "forwarded_skills": [
+      "r-package-setup",
+      "quarto-reporting"
+    ],
+    "r_packages": [
+      {
+        "name": "DBI",
+        "source": "CRAN"
+      },
+      {
+        "name": "duckdb",
+        "source": "CRAN"
+      },
+      {
+        "name": "BioticExplorerServer",
+        "source": "DeepWaterIMR/BioticExplorerServer",
+        "ref": "default"
+      }
+    ],
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "index-wise",
+    "kind": "knowledge",
+    "label": "Build and evaluate survey indices",
+    "purpose": "Development, validation, and reporting of survey indices using sdmTMB.",
+    "detail": "Move from qualified survey observations to a first model, validation, sensitivity analysis, and an index report. Uses BAIT for Biotic data and wise-writing conventions.",
+    "repo": "https://github.com/DeepWaterIMR/index-wise",
+    "site": null,
+    "status": "available",
+    "icon": "index",
+    "accent": "#426D46",
+    "skills": "index-*",
+    "install": "Install https://github.com/DeepWaterIMR/index-wise",
+    "owner": "DeepWaterIMR",
+    "license": "https://github.com/DeepWaterIMR/index-wise/blob/main/LICENSE",
+    "core": false,
+    "dependencies": [
+      "BAIT",
+      "wise-writing"
+    ],
+    "skill_roots": [
+      "skills"
+    ],
+    "install_skill": "index-install",
+    "update_skill": "index-update",
+    "r_packages": [
+      {
+        "name": "sdmTMB",
+        "source": "sdmTMB/sdmTMB",
+        "ref": "default"
+      },
+      {
+        "name": "sdmTMBexperiments",
+        "source": "DeepWaterIMR/sdmTMBexperiments",
+        "ref": "default"
+      }
+    ],
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "spict-wise",
+    "kind": "knowledge",
+    "label": "Document a stock assessment",
+    "purpose": "SPiCT stock assessments, diagnostics, sensitivity analyses, and advice.",
+    "detail": "Prepare assessment inputs, fit and diagnose SPiCT models, explore alternatives, and produce reports and advice using wise-writing.",
+    "repo": "https://github.com/DeepWaterIMR/spict-wise",
+    "site": null,
+    "status": "available",
+    "icon": "assessment",
+    "accent": "#66558D",
+    "skills": "spict-*",
+    "install": "Install https://github.com/DeepWaterIMR/spict-wise",
+    "owner": "DeepWaterIMR",
+    "license": "https://github.com/DeepWaterIMR/spict-wise/blob/main/LICENSE",
+    "core": false,
+    "dependencies": [
+      "wise-writing"
+    ],
+    "skill_roots": [
+      "skills"
+    ],
+    "install_skill": "spict-install",
+    "update_skill": "spict-update",
+    "r_packages": [
+      {
+        "name": "spict",
+        "source": "DTUAqua/spict",
+        "subdir": "spict",
+        "ref": "preserve-installed"
+      }
+    ],
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "gadget-wise",
+    "kind": "knowledge",
+    "label": "Fisheries models with gadget3",
+    "purpose": "A planned knowledge pack for developing fisheries models using gadget3.",
+    "detail": "The repository is reserved for future development. No installable knowledge pack is available yet.",
+    "repo": "https://github.com/DeepWaterIMR/gadget-wise",
+    "site": null,
+    "status": "planned",
+    "icon": "gadget",
+    "accent": "#64748B",
+    "skills": null,
+    "install": null,
+    "owner": "DeepWaterIMR",
+    "license": null,
+    "core": false,
+    "dependencies": [],
+    "skill_roots": [],
+    "install_skill": null,
+    "update_skill": null,
+    "lifecycle": {
+      "availability": "planned",
+      "managed_updates": false,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "ggOceanMaps",
+    "kind": "r",
+    "purpose": "Plot scientific data on ocean maps with bathymetry.",
+    "repo": "https://github.com/MikkoVihtakari/ggOceanMaps",
+    "site": "https://mikkovihtakari.github.io/ggOceanMaps/",
+    "status": "available",
+    "icon": "maps",
+    "owner": "MikkoVihtakari",
+    "license": "https://github.com/MikkoVihtakari/ggOceanMaps/blob/master/LICENSE",
+    "core": true,
+    "dependencies": [],
+    "r_package": {
+      "name": "ggOceanMaps",
+      "source": "MikkoVihtakari/ggOceanMaps",
+      "ref": "default"
+    },
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "ggFishPlots",
+    "kind": "r",
+    "purpose": "Estimate and visualize fish life-history relationships.",
+    "repo": "https://github.com/DeepWaterIMR/ggFishPlots",
+    "site": "https://deepwaterimr.github.io/ggFishPlots/",
+    "status": "available",
+    "icon": "fishplots",
+    "owner": "DeepWaterIMR",
+    "license": "https://github.com/DeepWaterIMR/ggFishPlots/blob/master/LICENSE",
+    "core": true,
+    "dependencies": [],
+    "r_package": {
+      "name": "ggFishPlots",
+      "source": "DeepWaterIMR/ggFishPlots",
+      "ref": "default"
+    },
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "ggSurveyPlots",
+    "kind": "r",
+    "purpose": "Visualization of fisheries survey data.",
+    "repo": null,
+    "site": null,
+    "status": "planned",
+    "icon": "survey",
+    "owner": null,
+    "license": null,
+    "core": false,
+    "dependencies": [],
+    "lifecycle": {
+      "availability": "planned",
+      "managed_updates": false,
+      "database_refresh": false
+    }
+  }
 ]

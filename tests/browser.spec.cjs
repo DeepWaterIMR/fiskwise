@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const packages = require('../packages.json');
 
 test('component catalogue, planned status, assets and responsive layout', async ({ page }) => {
   const failures = [];
@@ -9,9 +10,9 @@ test('component catalogue, planned status, assets and responsive layout', async 
   });
   await page.goto('./');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Scientific knowledge.');
-  await expect(page.locator('.pack')).toHaveCount(6);
-  await expect(page.locator('.r-package')).toHaveCount(3);
-  await expect(page.locator('.planned')).toHaveCount(2);
+  await expect(page.locator('.pack')).toHaveCount(packages.filter(packageInfo => packageInfo.kind === 'knowledge').length);
+  await expect(page.locator('.r-package')).toHaveCount(packages.filter(packageInfo => packageInfo.kind === 'r').length);
+  await expect(page.locator('.planned')).toHaveCount(packages.filter(packageInfo => packageInfo.status === 'planned').length);
   await expect(page.locator('#gadget-wise')).toContainText('No installable knowledge pack');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await expect.poll(() => page.locator('img').evaluateAll(images => images.filter(img => !img.complete || img.naturalWidth === 0).map(img => ({src:img.src,complete:img.complete,width:img.naturalWidth}))), {message:JSON.stringify(failures)}).toEqual([]);
@@ -19,6 +20,36 @@ test('component catalogue, planned status, assets and responsive layout', async 
   await expect(page).toHaveURL(/#knowledge-packs$/);
   expect(await page.locator('#knowledge-packs').evaluate(el => el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(0);
   await page.screenshot({ path: `test-results/hub-${test.info().project.name}.png`, fullPage: true });
+  expect(failures).toEqual([]);
+});
+
+test('getting-started guide keeps lifecycle prompts accessible and responsive', async ({ page, context }) => {
+  const failures = [];
+  page.on('pageerror', error => failures.push(error.message));
+  page.on('requestfailed', request => failures.push(`${request.url()}: ${request.failure()?.errorText}`));
+  page.on('response', response => {
+    if (response.status() >= 400 && response.url().startsWith('http://127.0.0.1:')) failures.push(response.url());
+  });
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('./getting-started.html');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Install only what your research needs.');
+  await expect(page.locator('#prompt-install')).toContainText('https://github.com/DeepWaterIMR/fiskwise');
+  await expect(page.locator('#prompt-update')).toContainText('Update Fiskwise and my installed ecosystem packs');
+  await expect(page.locator('#prompt-uninstall')).toContainText('Uninstall Fiskwise-managed skills and files only');
+  await expect(page.getByRole('button', { name: 'Copy prompt' })).toHaveCount(3);
+  await expect(page.getByText('Quarto CLI is a separate application')).toBeVisible();
+  await expect(page.getByText(/gadget-wise.*planned/i)).toBeVisible();
+  await expect(page.getByRole('link', { name: /BAIT privacy guidance/ })).toHaveAttribute('href', 'https://deepwaterimr.github.io/BAIT/privacy.html');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+  const copyButton = page.getByRole('button', { name: 'Copy prompt' }).first();
+  for (let index = 0; index < 30 && !(await copyButton.evaluate(button => button === document.activeElement)); index += 1) {
+    await page.keyboard.press('Tab');
+  }
+  await expect(copyButton).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#status-install')).toHaveText('Prompt copied.');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('Install https://github.com/DeepWaterIMR/fiskwise.');
   expect(failures).toEqual([]);
 });
 

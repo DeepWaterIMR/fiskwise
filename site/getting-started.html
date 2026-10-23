@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Getting started — Fiskwise</title>
+  <meta name="description" content="Install, update, and remove Fiskwise with clear previews, optional dependencies, and researcher control.">
+  <meta name="theme-color" content="#123047">
+  <link rel="canonical" href="https://deepwaterimr.github.io/fiskwise/getting-started.html">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/fiskwise-tokens.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="guide-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="./" aria-label="Fiskwise home"><img src="assets/wordmark.svg" width="158" height="40" alt="Fiskwise"></a>
+    <nav aria-label="Main navigation"><a href="./#knowledge-packs">Knowledge packs</a><a href="./#r-tools">R packages</a><a href="./#get-started" aria-current="page">Getting started</a><a class="github-link" href="https://github.com/DeepWaterIMR/fiskwise">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </div></header>
+  <main id="main">
+    <section class="guide-hero container" aria-labelledby="guide-title">
+      <p class="eyebrow">FISKWISE / GETTING STARTED</p>
+      <h1 id="guide-title">Install only what your research needs.</h1>
+      <p>Fiskwise is a collection of independent, inspectable knowledge packs and R tools. Start with writing and presentations, check the shared R toolchain with your agent, and add specialist data and model packs when needed.</p>
+      <div class="guide-principles"><span>Preview changes</span><span>Keep user-owned skills</span><span>Review scientific output</span></div>
+    </section>
+
+    <section class="guide-section container" aria-labelledby="core-title">
+      <div class="guide-heading"><p class="eyebrow">01 / CORE KNOWLEDGE</p><h2 id="core-title">Start with writing and presentations</h2><p>These packs provide reusable scientific-writing conventions and a planning, authoring, and visual-review workflow for Quarto slides. They do not install R packages or a model by themselves.</p></div>
+      <div class="prompt-card">
+        <div class="prompt-head"><h3>Install Fiskwise</h3><button class="copy-button" type="button" data-copy-target="prompt-install" data-copy-status="status-install">Copy prompt</button></div>
+        <pre><code id="prompt-install">Install https://github.com/DeepWaterIMR/fiskwise. Bootstrap wise-writing and wise-presentations first, preserving existing settings and skill IDs. Check R, Quarto CLI, compilers, and a writable user R library. Ask before system changes and ask for saved, revocable permission to install or update managed R packages: tidyverse, required writing/presentation packages, ggOceanMaps and ggFishPlots from GitHub, and their required dependencies. Respect renv, pins and disabling controls. Offer BAIT if I work at IMR, keeping its privacy and database choices separate. Install model packs only when needed. Report versions, revisions and incomplete steps.</code></pre>
+        <p id="status-install" class="copy-status" role="status" aria-live="polite">You can also select the prompt and copy it with your keyboard.</p>
+      </div>
+    </section>
+
+    <section class="guide-section guide-tint" aria-labelledby="optional-title"><div class="container">
+      <div class="guide-heading"><p class="eyebrow">02 / ADD ONLY WHEN NEEDED</p><h2 id="optional-title">Shared R tools, specialist packs on demand</h2><p>Core skills install before R is needed. Runtime setup checks tidyverse, writing/presentation dependencies, ggOceanMaps and ggFishPlots. Package installation requires saved, revocable permission; system changes need separate approval. BAIT and modelling packs are optional.</p></div>
+      <div class="choice-grid">
+        <article class="choice-card"><h3>R, tidyverse, and Quarto</h3><p>Install these only when a project needs them and you approve. Quarto CLI is a separate application; the R package <code>quarto</code> is its R interface and does not replace the CLI.</p></article>
+        <article class="choice-card"><h3>Maps and life-history plots</h3><p><code>ggOceanMaps</code> and <code>ggFishPlots</code> are independent R packages. Fiskwise checks their GitHub versions during runtime setup and updates them with package permission. Additional map data and analysis choices remain task-specific.</p></article>
+        <article class="choice-card"><h3>IMR Biotic data</h3><p>Install BAIT only for IMR Biotic work. Keep raw records and exact station positions local. Follow BAIT privacy guidance and use the database path in its config unless you explicitly select another local database.</p><a href="https://deepwaterimr.github.io/BAIT/privacy.html">BAIT privacy guidance <span aria-hidden="true">↗</span></a></article>
+        <article class="choice-card"><h3>Model workflows</h3><p>Add <code>index-wise</code> or <code>spict-wise</code> for a relevant analysis, with their stated pack and R-package prerequisites. <code>gadget-wise</code> is planned; it is not installable yet.</p></article>
+      </div>
+      <aside class="consent-callout"><strong>Before saving consent:</strong> ask which named software may be installed in future, explain the stored preference and how to revoke it, and keep consent separate from permission to read or move research data.</aside>
+    </div></section>
+
+    <section class="guide-section container" aria-labelledby="lifecycle-title">
+      <div class="guide-heading"><p class="eyebrow">03 / MAINTAIN YOUR SETUP</p><h2 id="lifecycle-title">Preview every install, update, and removal</h2><p>Use these prompts with an agent that can inspect the Fiskwise repository and your local skill destinations. Ask it to report what it will touch before it changes anything.</p></div>
+      <div class="prompt-stack">
+        <article class="prompt-card"><div class="prompt-head"><h3>Update Fiskwise</h3><button class="copy-button" type="button" data-copy-target="prompt-update" data-copy-status="status-update">Copy prompt</button></div><pre><code id="prompt-update">Update Fiskwise and my installed ecosystem packs in dependency order. Preview local edits and preserve dirty, diverged or pinned checkouts and selected branches. Check managed R packages and required dependencies once, honoring saved revocable permission, renv and disabling controls. Ask before R, Quarto CLI or other system changes. Preserve customized registrations, research projects and database settings. Do not refresh the Biotic database. Report versions, revisions, changed paths and incomplete checks.</code></pre><p id="status-update" class="copy-status" role="status" aria-live="polite">You can also select the prompt and copy it with your keyboard.</p></article>
+        <article class="prompt-card"><div class="prompt-head"><h3>Uninstall Fiskwise</h3><button class="copy-button" type="button" data-copy-target="prompt-uninstall" data-copy-status="status-uninstall">Copy prompt</button></div><pre><code id="prompt-uninstall">Uninstall Fiskwise-managed skills and files only. Before acting, preview the exact paths and explain which files are user-owned, locally changed, or adopted; preserve those unless I select them individually. Do not remove R, Quarto, independent R packages, BAIT configuration, or any database as part of pack removal. If I ask to remove a BAIT database, show its path and size and ask for separate confirmation; move it to Trash or a clearly named quarantine instead of permanently deleting it. Report what remains.</code></pre><p id="status-uninstall" class="copy-status" role="status" aria-live="polite">You can also select the prompt and copy it with your keyboard.</p></article>
+      </div>
+    </section>
+
+    <section class="guide-section guide-tint" aria-labelledby="scope-title"><div class="container">
+      <div class="guide-heading"><p class="eyebrow">04 / SCOPE AND REVIEW</p><h2 id="scope-title">Research guidance, under researcher direction</h2></div>
+      <div class="scope-grid"><p>Fiskwise describes scientific workflows and methods; each pack has its own domain and prerequisites. It is not a trained model, an institutional policy, or a substitute for project-specific protocols, applicable standards, or expert review.</p><p>For a task that allows delegation, ask for the least costly capable model and report the full task cost: setup, model calls, data handling, review, reruns, and researcher time. Keep sensitive data local and do not delegate access beyond the approved scope.</p></div>
+      <p class="guide-back"><a class="button" href="./">Explore Fiskwise packs <span aria-hidden="true">→</span></a></p>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="./"><img src="assets/wordmark.svg" width="158" height="40" alt="Fiskwise"></a><p>Agentic AI tools for fisheries science.<br><span>Scientific decisions stay with the researcher.</span></p><nav aria-label="Footer"><a href="./">Fiskwise home</a><a href="https://github.com/DeepWaterIMR/fiskwise">GitHub</a><a href="https://github.com/DeepWaterIMR/fiskwise/blob/main/MIGRATION.md">Migration guide</a></nav><p class="site-version">Fiskwise v<!-- FISKWISE_VERSION --> · <time datetime="<!-- FISKWISE_DATE -->"><!-- FISKWISE_DATE --></time></p></div></footer>
+  <script>
+    document.querySelectorAll('[data-copy-target]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const text = document.getElementById(button.dataset.copyTarget);
+        const status = document.getElementById(button.dataset.copyStatus);
+        try {
+          await navigator.clipboard.writeText(text.textContent.trim());
+          status.textContent = 'Prompt copied.';
+        } catch {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(text);
+          selection.removeAllRanges();
+          selection.addRange(range);
+          status.textContent = 'Prompt selected. Press Ctrl+C or Command+C to copy.';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

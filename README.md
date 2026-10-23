@@ -1,5 +1,9 @@
 # Fiskwise — Agentic AI tools for fisheries science
 
+<!-- version -->
+**Version 0.1.0** (2026-10-23)
+<!-- /version -->
+
 [![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-087F8C.svg)](LICENSE)
 
@@ -34,7 +38,33 @@ independently or together. Raw confidential data must remain local.
 | [ggFishPlots](https://deepwaterimr.github.io/ggFishPlots/) | Fish life-history relationships |
 | ggSurveyPlots — **planned** | Fisheries survey visualization |
 
-For installation, follow the selected pack's README with your agent. Existing skill IDs
+## Start with your agent
+
+```text
+Install https://github.com/DeepWaterIMR/fiskwise
+```
+
+Core installation registers **wise-writing and wise-presentations first**, even when
+R is missing. Fiskwise then guides toolchain checks and asks for revocable permission
+before installing/updating managed R packages (including ggOceanMaps and ggFishPlots).
+R, Quarto CLI and system tools require separate approval. Declining package permission
+keeps the skills usable and reports incomplete runtime setup. Model packs are installed
+on demand; BAIT is offered to IMR users with its own privacy/database choices.
+
+Use `Update Fiskwise` for installed software, or `Uninstall Fiskwise` for an
+ownership-aware removal preview. Removal always requires confirmation; existing/adopted
+installations and databases are preserved by default. Database refresh and removal
+are separate choices. See [Getting started](https://deepwaterimr.github.io/fiskwise/getting-started.html)
+and the [lifecycle implementation](docs/LIFECYCLE.md).
+
+Fiskwise owns `fiskwise-workflow`, `fiskwise-install`, `fiskwise-update` and
+`fiskwise-uninstall`. wise-writing owns shared `r-code-style`, `r-package-setup` and
+`quarto-reporting`; specialist methods stay in their packs. Fiskwise research uses R,
+tidyverse and Quarto, with `r-code-style` for new/edited R code. Website/maintenance
+work retains suitable tooling. Delegate only when total expected cost is lower,
+including coordination and review. Packs remain independently usable.
+
+Existing skill IDs
 remain stable; see the [migration guide](MIGRATION.md). Cite the underlying methods and
 software using each component's own citation instructions. This hub has no scholarly DOI.
 

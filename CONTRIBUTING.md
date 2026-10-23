@@ -16,3 +16,10 @@ endorsements. Respect each component's own license and contribution instructions
 
 Report broken ecosystem links here; report scientific or implementation issues in the
 relevant pack. Human maintainers review changes and remain responsible for their release.
+
+Lifecycle changes need isolated-home ownership/consent tests. Use synthetic databases,
+local Git remotes and mocked release/package services; never real Biotic data or system
+installs in tests. Run the Python suite, wise-writing package-policy checks and affected
+scaffold/installer checks. Keep shared package-loading code in wise-writing and copy it
+into generated projects so they stay self-contained. Update CHANGELOG.md for user-visible
+changes. The installed pre-commit hook stamps VERSION/README; website builds only read it.

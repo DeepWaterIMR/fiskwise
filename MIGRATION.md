@@ -50,3 +50,18 @@ The presentation website is now at
 [wise-presentations](https://deepwaterimr.github.io/wise-presentations/). GitHub repository
 redirects do not guarantee redirects for GitHub Pages sites; update published website links
 explicitly. See the migration ledger for the observed old-URL behavior.
+
+## Shared skills and lifecycle (0.1.0)
+
+`r-package-setup` and `quarto-reporting` now belong to wise-writing, preserving their
+skill IDs. BAIT's former paths are forwarding pointers; register only the canonical
+wise-writing directories. `r-code-style` is shared by all Fiskwise research R work.
+Fiskwise coordinates install/update/uninstall; packs retain standalone entry points.
+Existing local resources are adopted unless creation provenance was recorded beforehand.
+
+Existing research projects are unchanged. To adopt the new package-loading policy in a
+project, review its pins/renv setup first, compare its `R/0_setup.R` with a newly generated
+project, copy wise-writing's `project-template/R/package_setup.R` into `R/`, and source it
+through the existing project's package declarations. Preserve analysis-specific packages
+and settings. Disable unattended installation by default; explicitly authorize missing
+packages per run. Do not blindly replace a research project's setup script or outputs.
