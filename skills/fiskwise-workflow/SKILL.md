@@ -20,3 +20,13 @@ Always read wise-writing's `r-code-style` before creating or editing R code. Use
 Delegate substantial bounded tasks to cheaper available models only when the expected **total** cost is lower, including context transfer, coordination, repeated work and review. Keep small or context-heavy tasks with the lead. Do not delegate merely to demonstrate delegation.
 
 Missing components go through `fiskwise-install`; software changes through `fiskwise-update`. Do not install packages without saved permission. Database refreshes are separate. Generic knowledge/template-free modes are deferred.
+
+## Ecosystem commit versions
+
+For every ordinary commit in a maintained Fiskwise repository, use the shared version
+hook to increment patch by **0.0.1** and stamp the update date. Knowledge packs use
+`VERSION`; R packages use DESCRIPTION `Version` and `Date`. Minor (`+0.1`) and major
+(`+1`) increments require an **explicit user request**; never choose them autonomously.
+Only then set `FISKWISE_VERSION_BUMP=minor|major` for that commit. Preserve custom hooks
+and staged-file boundaries. Merge/rebase replay retains existing stamps; no automatic
+tags/releases. See [the shared policy](https://github.com/DeepWaterIMR/fiskwise/blob/main/docs/VERSIONING.md).

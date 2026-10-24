@@ -175,3 +175,26 @@ Validation for this change: all 40 isolated tests passed, including all discover
 all 9 desktop/mobile/narrow browser tests passed, including exact clipboard contents for
 the three short prompts. The site build, local-link checks and skill metadata validation
 passed. Publication and local refresh use the commit containing this ledger entry.
+
+
+## Ecosystem version policy — 24 October 2026
+
+Fiskwise 0.1.5 establishes one shared hook for all eight existing source repositories: Fiskwise, wise-writing, wise-presentations, BAIT, index-wise, spict-wise, ggOceanMaps, and ggFishPlots. Ordinary commits increment patch by 0.0.1 and stamp the local update date. Only an explicit user request authorizes minor or major increments. Knowledge packs use VERSION; R packages use DESCRIPTION Version/Date. Existing third-party dependencies and installed R libraries keep their upstream versions.
+
+The synchronization tool copies the self-contained hook and its MIT notice without changing component licenses. Installation and updates enable owned hooks while preserving custom hooks. Git hook activation remains local to each checkout. Unstaged metadata is refused, other DESCRIPTION fields are preserved, and merge/rebase replay retains existing stamps. wise-presentations adopts its existing 0.1.0 site version as its first root VERSION baseline. Empty gadget-wise and planned ggSurveyPlots remain unchanged.
+
+Validation uses isolated repositories and synthetic metadata; no R package installation, system update, scientific run, or Biotic data access is needed. See docs/VERSIONING.md for synchronization and explicit version-bump commands.
+
+Validation: all 55 isolated tests and nine desktop/mobile/narrow browser tests passed; website build/local links and wise-writing skill validation passed. File-mode preservation is covered by an additional regression test. Native Windows hook execution and every agent client remain unverified.
+
+| Repository | Version | Revision |
+|---|---|---|
+| wise-writing | 0.1.23 | `efb2dfe` |
+| wise-presentations | 0.1.1 | `69ff8d2` |
+| BAIT | 0.2.18 | `260f4a6` |
+| index-wise | 0.2.2 | `c95e9d4` |
+| spict-wise | 0.2.2 | `7d300e1` |
+| ggOceanMaps | 3.0.4 | `69e35bc` |
+| ggFishPlots | 0.4.7 | `42904f6` |
+
+Fiskwise version/revision is the 0.1.5 commit containing this ledger. Published guide: https://deepwaterimr.github.io/fiskwise/getting-started.html. No tags, releases, CRAN submissions, installed R packages, or research projects were changed.

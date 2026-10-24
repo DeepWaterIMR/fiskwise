@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5 — 2026-10-24
+
+- Standardize patch-per-commit version/date hooks across all maintained knowledge packs and R source packages.
+- Require explicit user requests for minor/major bumps, preserve custom hooks and unstaged metadata, and activate owned hooks during lifecycle operations.
+- Document shared version ownership and add isolated hook/synchronization checks.
+
 ## 0.1.4 — 2026-10-24
 
 - Make the three short install/update/uninstall prompts the complete user interface; repository entry points bootstrap the full lifecycle skills.
@@ -28,5 +34,4 @@
 - Add confirmed, recoverable removal with database creation provenance.
 - Publish ecosystem installation and maintenance guidance and a versioned website.
 
-Ordinary commits increment the patch version. Intentional minor or major version changes
-are maintained in `VERSION`; tags and GitHub releases are separate, deliberate actions.
+Ordinary commits increment the patch version. Minor or major version changes require an explicit user request; tags and GitHub releases are separate, deliberate actions.

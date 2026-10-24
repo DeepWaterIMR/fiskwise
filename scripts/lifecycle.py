@@ -14,6 +14,7 @@ import uuid
 if str(Path(__file__).resolve().parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agent_profiles import PROFILES, canonical, registration_allowed
+from sync_versioning import enable_hook
 
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN, END = '<!-- fiskwise-managed:start -->', '<!-- fiskwise-managed:end -->'
@@ -209,6 +210,12 @@ Use R/tidyverse, Quarto reports, and relevant ecosystem packages. Always use
 wise-writing's `r-code-style` for new or edited R code. Website/maintenance tooling
 is task-appropriate. Delegate only when estimated total cost is lower after
 context, coordination, repeated work, and review; keep small/context-heavy work local.
+Before committing in any maintained Fiskwise repository, follow the version policy:
+every ordinary commit increments patch by 0.0.1 and updates the date (VERSION for
+knowledge packs; DESCRIPTION Version/Date for R packages). Minor or major increments
+require an explicit user request; never select them autonomously. Use the repository
+version hook; merge/rebase replay preserves existing stamps. Full policy:
+{self.root / 'docs/VERSIONING.md'}.
 Scientific methods remain with their specialist packs. Follow BAIT for IMR Biotic
 data and keep raw data local. Package-install consent is recorded in
 {self.state_file}; system software and database downloads need their own approval.
@@ -337,13 +344,10 @@ data and keep raw data local. Package-install consent is recorded in
             for directory in ['.claude', '.agents', '.codex']:
                 target = self.home / directory / 'knowledge'
                 self.register_link(target, self.location('BAIT') / 'knowledge', 'BAIT', prefer_copy=prefer_copy)
-        if (self.root / '.git').exists():
-            hooks = subprocess.run(['git', '-C', str(self.root), 'config', '--get', 'core.hooksPath'], capture_output=True, text=True)
-            if not hooks.stdout.strip() or hooks.stdout.strip() == '.githooks':
-                self.state.setdefault('hook_config', {'previous': hooks.stdout.strip() or None, 'installed': '.githooks', 'path': str(self.root)})
-                subprocess.run(['git', '-C', str(self.root), 'config', 'core.hooksPath', '.githooks'], check=True)
-            else:
-                self.state['hook_note'] = 'Existing custom hooks retained; integrate .githooks/pre-commit manually.'
+        for name in names:
+            path = self.location(name)
+            if (path / '.git').exists():
+                self.state['components'][name]['version_hook'] = enable_hook(path, apply=True)
         self.state['enabled'] = True
         self.state['history'].append({'operation': 'install', 'at': stamp(), 'components': names})
         self.save()
@@ -412,6 +416,7 @@ data and keep raw data local. Package-install consent is recorded in
                     git(path, 'merge', '--ff-only', upstream)
                 item['status'] = 'updated' if behind else 'current'
                 p.update(pack_version(path))
+                p['version_hook'] = enable_hook(path, apply=True)
             except subprocess.CalledProcessError:
                 item['status'] = 'remote-check-unavailable'
         if apply:

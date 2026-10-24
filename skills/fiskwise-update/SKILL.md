@@ -30,3 +30,9 @@ another coding agent since setup, register that host through the install skill's
 stage without repeating package/runtime work unnecessarily.
 
 Check R and Quarto CLI through `academic-toolchain-setup`; ask before system changes. Newly generated code defaults to no automatic package installation. Leave existing research projects unchanged. Never refresh the Biotic database as a side effect of software updates; offer BAIT's separate data-refresh workflow only when appropriate.
+
+
+When maintaining source repositories, follow `docs/VERSIONING.md`: every ordinary
+commit increments patch by 0.0.1 and the update date. R packages use DESCRIPTION;
+knowledge packs use VERSION. Minor/major changes require the user's explicit request.
+A software update does not authorize a minor/major version decision or a release.

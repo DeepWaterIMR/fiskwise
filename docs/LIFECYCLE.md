@@ -55,7 +55,12 @@ Database removal needs a separate `database-preview PATH`, user approval of exac
 
 ## Versioning
 
-`VERSION` is the only version/date source. Install enables `.githooks/pre-commit` only if no unrelated hooks configuration exists; otherwise report manual integration. The hook increments patch versions on ordinary commits, preserves intentional version changes, refreshes date, and skips merge/rebase replay. Stage README edits before committing so its marker can update without accidentally staging unrelated work. Website builds read VERSION and never modify it. No automatic tags/releases are created.
+Follow [VERSIONING.md](VERSIONING.md) for all ecosystem commits, including R packages.
+Knowledge packs use VERSION; R packages use DESCRIPTION Version/Date. Every ordinary
+commit increments patch and date; minor/major changes require an explicit user request
+and a one-command `FISKWISE_VERSION_BUMP=minor|major`. Installation/update enables the
+repository hooks while preserving unrelated custom configuration. Website builds read
+VERSION and never modify it; no automatic tags/releases are created.
 
 The R helper needs `jsonlite` to read the registry. If absent, the agent must first
 verify saved consent through native JSON/file tools and bootstrap that one dependency

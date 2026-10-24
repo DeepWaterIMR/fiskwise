@@ -23,3 +23,13 @@ installs in tests. Run the Python suite, wise-writing package-policy checks and 
 scaffold/installer checks. Keep shared package-loading code in wise-writing and copy it
 into generated projects so they stay self-contained. Update CHANGELOG.md for user-visible
 changes. The installed pre-commit hook stamps VERSION/README; website builds only read it.
+
+## Ecosystem commit versions
+
+For every ordinary commit in a maintained Fiskwise repository, use the shared version
+hook to increment patch by **0.0.1** and stamp the update date. Knowledge packs use
+`VERSION`; R packages use DESCRIPTION `Version` and `Date`. Minor (`+0.1`) and major
+(`+1`) increments require an **explicit user request**; never choose them autonomously.
+Only then set `FISKWISE_VERSION_BUMP=minor|major` for that commit. Preserve custom hooks
+and staged-file boundaries. Merge/rebase replay retains existing stamps; no automatic
+tags/releases. See [the shared policy](https://github.com/DeepWaterIMR/fiskwise/blob/main/docs/VERSIONING.md).

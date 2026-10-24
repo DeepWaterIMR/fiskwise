@@ -1,7 +1,7 @@
 # Fiskwise — Agentic AI tools for fisheries science
 
 <!-- version -->
-**Version 0.1.4** (2026-10-24)
+**Version 0.1.5** (2026-10-24)
 <!-- /version -->
 
 [![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)
@@ -104,3 +104,11 @@ running. The site build and deployment do not require Node.js or Playwright.
 
 [Contributing](CONTRIBUTING.md) · [Migration](MIGRATION.md) · [Brand assets](BRAND.md) ·
 [Migration ledger](MIGRATION-LEDGER.md) · [Hub license](LICENSE)
+
+
+## Ecosystem versioning
+
+Every ordinary commit increments patch by **0.0.1** and records the update date.
+Minor (`+0.1`) and major (`+1`) versions change only at the user's explicit request.
+Knowledge packs use `VERSION`; R packages use DESCRIPTION `Version`/`Date`.
+See the [shared version policy](docs/VERSIONING.md).
