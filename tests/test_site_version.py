@@ -12,7 +12,7 @@ class SiteVersionTest(unittest.TestCase):
     def test_build_stamps_all_pages_without_modifying_version_or_source(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            for directory in ['site', 'assets', 'scripts']:
+            for directory in ['site', 'assets', 'scripts', 'docs']:
                 shutil.copytree(ROOT / directory, root / directory, ignore=shutil.ignore_patterns('__pycache__'))
             for file in ['VERSION', 'packages.json', 'LICENSE', *[p.name for p in ROOT.glob('*.md')]]:
                 shutil.copy2(ROOT / file, root / file)

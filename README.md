@@ -1,13 +1,18 @@
 # Fiskwise — Agentic AI tools for fisheries science
 
 <!-- version -->
-**Version 0.1.3** (2026-10-23)
+**Version 0.1.4** (2026-10-24)
 <!-- /version -->
 
 [![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-087F8C.svg)](LICENSE)
 
 **[Explore the Fiskwise website](https://deepwaterimr.github.io/fiskwise/)**
+
+**For coding agents receiving an install/update/uninstall request:** read
+[AGENTS.md](AGENTS.md), then execute its matching full lifecycle skill. A first-time
+`install https://github.com/DeepWaterIMR/fiskwise` bootstraps the install skill directly
+from this repository. The user does not need any additional prompt text.
 
 Fiskwise brings together AI skills, scientific knowledge, and R tools to help researchers
 conduct fisheries science with agents such as Claude Code and Codex. Its knowledge packs
@@ -41,8 +46,16 @@ independently or together. Raw confidential data must remain local.
 ## Start with your agent
 
 ```text
-Install https://github.com/DeepWaterIMR/fiskwise
+install https://github.com/DeepWaterIMR/fiskwise
 ```
+
+Later, simply say `update Fiskwise` or `uninstall Fiskwise`. The agent loads the
+matching workflow; no scripts or extra instructions are needed from you.
+
+Use a local coding agent with repository and file/shell access: Claude Code, Codex,
+Antigravity, Mistral Vibe Code, Gemini CLI, Cursor, Copilot CLI, or OpenCode.
+The installer handles their [documented skill-discovery locations](docs/AGENT-SUPPORT.md).
+Browser-only chat and hosts that cannot read/write local files cannot install local skills.
 
 Core installation registers **wise-writing and wise-presentations first**, even when
 R is missing. Fiskwise then guides toolchain checks and asks for revocable permission

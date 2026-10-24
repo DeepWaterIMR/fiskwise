@@ -76,6 +76,8 @@ def main():
     shutil.copy2(ROOT / "packages.json", dest / "packages.json")
     for name in ["MIGRATION.md", "BRAND.md", "CONTRIBUTING.md", "LICENSE"]:
         shutil.copy2(ROOT / name, dest / name)
+    if (ROOT / "docs").exists():
+        shutil.copytree(ROOT / "docs", dest / "docs")
     inject_version(dest, version, release_date)
     (dest / ".nojekyll").touch()
     if VERSION_FILE.read_bytes() != version_source:

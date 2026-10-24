@@ -1,5 +1,9 @@
 # Fiskwise
 
+For `install https://github.com/DeepWaterIMR/fiskwise`, `update Fiskwise`, or
+`uninstall Fiskwise`, read [AGENTS.md](AGENTS.md) and run its matching lifecycle skill.
+The short request is sufficient; do not ask for a longer prompt.
+
 Read [AGENTS.md](AGENTS.md) for the shared ecosystem and website-maintenance contract.
 Use the existing skill IDs listed there; repository names changed, scientific methods did not.
 

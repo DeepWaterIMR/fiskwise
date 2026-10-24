@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 from lifecycle import Manager
+from agent_profiles import PROFILES, ALIASES
 
 
 def main(argv=None):
@@ -16,7 +17,7 @@ def main(argv=None):
         p.add_argument('--apply', action='store_true')
         if command == 'install':
             p.add_argument('--include', action='append', default=[])
-            p.add_argument('--agent', action='append', choices=['claude', 'codex'])
+            p.add_argument('--agent', action='append', choices=list(PROFILES) + list(ALIASES))
             p.add_argument('--adopt-existing', action='store_true')
             p.add_argument('--no-clone', action='store_true')
             p.add_argument('--copy', action='store_true', help='Use copies where symlinks are unavailable')

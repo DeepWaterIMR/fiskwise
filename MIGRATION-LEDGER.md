@@ -149,3 +149,29 @@ include the final revisions. All six checkouts are clean after publication.
 
 Runtime checks preserve prerelease/development toolchains and installed versions newer
 than known stable metadata; they never recommend downgrading them as obsolete R.
+
+## Short-prompt installation — 24 October 2026
+
+Fiskwise 0.1.4 replaces the long website prompts with exactly:
+`install https://github.com/DeepWaterIMR/fiskwise`, `update Fiskwise`, and
+`uninstall Fiskwise`. README, AGENTS.md, CLAUDE.md and GEMINI.md route these requests
+to the full lifecycle skills, including first installation before any skill is registered.
+The helper still performs filesystem operations only; the agent continues through runtime
+checks, necessary permissions, package setup and the optional IMR/BAIT offer.
+
+The new [agent support matrix](docs/AGENT-SUPPORT.md) records official discovery sources.
+Profiles cover Claude Code, Codex, Antigravity app/IDE and CLI, Mistral Vibe Code,
+Gemini CLI, Cursor, Copilot CLI, OpenCode, Windsurf/Cascade, Devin local, Cline and
+Roo Code, plus a portable fallback. Shared target directories are deduplicated, custom
+settings are preserved, and update/uninstall use the same exact allowlisted registrations.
+Copies resolve repository support files through the registry instead of broken relative
+paths. Tests exercise profile installation, detection, aliases, copies, updates, modified
+entries, confirmed removal, and preservation of user instructions in isolated homes.
+Native end-to-end interaction with every agent client remains unverified; clients with
+cached skill lists may require a reload/new session. No system tools, R packages, or data
+are installed as part of this implementation change.
+
+Validation for this change: all 40 isolated tests passed, including all discovery profiles;
+all 9 desktop/mobile/narrow browser tests passed, including exact clipboard contents for
+the three short prompts. The site build, local-link checks and skill metadata validation
+passed. Publication and local refresh use the commit containing this ledger entry.

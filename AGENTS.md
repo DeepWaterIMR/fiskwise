@@ -1,5 +1,28 @@
 # Fiskwise
 
+## Short lifecycle requests — start here
+
+The complete user interface is (case-insensitive):
+
+| User request | Read and execute |
+|---|---|
+| `install https://github.com/DeepWaterIMR/fiskwise` or `install Fiskwise` | [fiskwise-install](skills/fiskwise-install/SKILL.md) |
+| `update Fiskwise` | [fiskwise-update](skills/fiskwise-update/SKILL.md) |
+| `uninstall Fiskwise` | [fiskwise-uninstall](skills/fiskwise-uninstall/SKILL.md) |
+
+The short request is sufficient. Do not ask the user to paste a longer prompt,
+choose scripts, or register skills manually. On first install, read the install
+skill from this repository even though it is not registered yet. Obtain a local
+checkout if only the GitHub page is available, then follow that same skill.
+Continue through the entire onboarding workflow; registering skill files alone
+is not a completed installation. The install request authorizes ordinary clone and
+registration steps. Ask only for required package/system/database permission or
+missing information. Uninstall always needs the user's approved removal preview.
+
+Use [agent support](docs/AGENT-SUPPORT.md) for the active host's discovery profile.
+Register the installed coding agents without assuming every host reads CLAUDE.md.
+Preserve canonical Fiskwise spelling, unrelated instructions, and the consent ledger.
+
 Fiskwise is the umbrella for the DeepWaterIMR fisheries-science knowledge packs.
 Read `packages.json` for canonical component names, destinations, and status.
 

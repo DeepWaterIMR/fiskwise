@@ -10,6 +10,11 @@ import subprocess
 import sys
 import uuid
 
+# Also support importlib-based test/embedding loaders.
+if str(Path(__file__).resolve().parent) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+from agent_profiles import PROFILES, canonical, registration_allowed
+
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN, END = '<!-- fiskwise-managed:start -->', '<!-- fiskwise-managed:end -->'
 
@@ -149,15 +154,17 @@ class Manager:
 
     def agents(self, selected=None):
         if selected:
-            if not set(selected) <= {'claude', 'codex'}:
-                raise ValueError('Supported agents: claude, codex')
-            return list(dict.fromkeys(selected))
-        found = []
-        if (self.home / '.claude').exists():
-            found.append('claude')
-        if (self.home / '.codex').exists() or (self.home / '.agents').exists() or not found:
-            found.append('codex')
-        return found
+            return list(dict.fromkeys(canonical(name) for name in selected))
+        found = [name for name, profile in PROFILES.items()
+                 if any((self.home / path).exists() for path in profile['detect'])]
+        return found or ['portable']
+
+    def skill_targets(self, agents):
+        return list(dict.fromkeys(self.home / PROFILES[agent]['skills'] for agent in agents))
+
+    def instruction_targets(self, agents):
+        return list(dict.fromkeys(self.home / PROFILES[agent]['instructions']
+                                 for agent in agents if PROFILES[agent]['instructions']))
 
     def sources(self, names):
         result = {}
@@ -184,7 +191,17 @@ class Manager:
 
     def hook_text(self):
         return f'''{BEGIN}
-## Fiskwise research workflow
+## Fiskwise lifecycle and research workflow
+
+For short requests (case-insensitive), read and follow the corresponding full skill:
+- `install https://github.com/DeepWaterIMR/fiskwise` or `install Fiskwise`:
+  {self.root / 'skills/fiskwise-install/SKILL.md'}
+- `update Fiskwise`: {self.root / 'skills/fiskwise-update/SKILL.md'}
+- `uninstall Fiskwise`: {self.root / 'skills/fiskwise-uninstall/SKILL.md'}
+
+The short request is sufficient: do not ask the user to paste implementation steps.
+Installation means core skills AND the remaining runtime/onboarding workflow, subject
+only to the required package/system/data consent. Removal always needs confirmation.
 
 For scientific R work using Fiskwise or its packs, read the installed
 `fiskwise-workflow` skill at {self.root / 'skills/fiskwise-workflow/SKILL.md'}.
@@ -206,19 +223,28 @@ data and keep raw data local. Package-install consent is recorded in
                 actions.append({'action': 'clone', 'component': name, 'path': str(path),
                                 'repo': self.inventory[name]['repo']})
         for skill, (owner, source) in self.sources(names).items():
-            for agent in self.agents(selected):
-                target = self.home / ('.claude/skills' if agent == 'claude' else '.agents/skills') / skill
+            for parent in self.skill_targets(self.agents(selected)):
+                target = parent / skill
                 desired = {'kind': 'link', 'target': str(source)}
                 if fingerprint(target) != desired:
                     actions.append({'action': 'register', 'owner': owner, 'skill': skill,
                                     'path': str(target), 'source': str(source), 'existing': fingerprint(target) is not None, 'replacement': 'back up prior registration before replacing'})
-        return {'components': names, 'actions': actions, 'r_packages': self.state['consent'].get('r_packages'),
+        for target in self.instruction_targets(self.agents(selected)):
+            if not registration_allowed(self.home, target, 'block', 'fiskwise'):
+                actions.append({'action': 'preserve', 'path': str(target), 'reason': 'unsupported or redirected instruction file'})
+                continue
+            current = block(target.read_text()) if target.exists() else None
+            if current != self.hook_text():
+                actions.append({'action': 'route-short-requests', 'path': str(target), 'existing': target.exists()})
+        return {'components': names, 'agents': self.agents(selected), 'actions': actions, 'r_packages': self.state['consent'].get('r_packages'),
                 'note': 'Skill/config operations only. R/system installation and database downloads are separate.'}
 
     def register_link(self, target, source, owner, update=False, prefer_copy=False):
         target, source = Path(target), Path(source)
         if not target.parent.resolve().is_relative_to(self.home):
             raise ValueError(f'Agent directory resolves outside selected home; preserve for review: {target}')
+        if not registration_allowed(self.home, target, 'skill', owner):
+            raise ValueError(f'Unsupported skill registration path; preserve for review: {target}')
         record = next((r for r in self.state['registrations'] if r['path'] == str(target)), None)
         current = fingerprint(target)
         managed_copy = bool(record and record.get('source') == str(source) and current == record.get('installed') and current is not None and current.get('kind') == 'directory')
@@ -259,6 +285,8 @@ data and keep raw data local. Package-install consent is recorded in
         target = Path(target)
         if target.is_symlink() or not target.parent.resolve().is_relative_to(self.home):
             raise ValueError(f'Instruction file resolves outside its registered location: {target}')
+        if not registration_allowed(self.home, target, 'block', 'fiskwise'):
+            raise ValueError(f'Unsupported instruction file; preserve for review: {target}')
         text = target.read_text() if target.exists() else ''
         old = block(text)
         record = next((r for r in self.state['registrations'] if r['path'] == str(target)), None)
@@ -278,6 +306,7 @@ data and keep raw data local. Package-install consent is recorded in
 
     def install(self, include=(), selected=None, adopt=False, allow_clone=True, prefer_copy=False):
         names = self.ordered(include, adopt=adopt)
+        agents = self.agents(selected)
         for name in names:
             path = self.location(name)
             created = not path.exists()
@@ -292,12 +321,13 @@ data and keep raw data local. Package-install consent is recorded in
             self.state['components'][name] = dict(old, path=str(path), origin=old.get('origin', 'created' if created else 'adopted'), **pack_version(path))
             self.save()
         for skill, (owner, source) in self.sources(names).items():
-            for agent in self.agents(selected):
-                target = self.home / ('.claude/skills' if agent == 'claude' else '.agents/skills') / skill
+            for parent in self.skill_targets(agents):
+                target = parent / skill
                 self.register_link(target, source, owner, prefer_copy=prefer_copy)
-        for agent in self.agents(selected):
-            self.register_block(self.home / ('.claude/CLAUDE.md' if agent == 'claude' else '.codex/AGENTS.md'))
-        self.component_configs(names)
+        for target in self.instruction_targets(agents):
+            self.register_block(target)
+        self.state.setdefault('agents', {}).update({agent: {'skills': str(self.home / PROFILES[agent]['skills']), 'instructions': str(self.home / PROFILES[agent]['instructions']) if PROFILES[agent]['instructions'] else None} for agent in agents})
+        self.component_configs(names, agents)
         bait_config = self.home / '.bait/config.json'
         if 'BAIT' in names and bait_config.exists():
             database = json.loads(bait_config.read_text()).get('bes_db_path')
@@ -319,7 +349,7 @@ data and keep raw data local. Package-install consent is recorded in
         self.save()
         return self.state
 
-    def component_configs(self, names):
+    def component_configs(self, names, agents):
         configs = {'wise-writing': ('.wise-writing', '.academic-writing', 'academic_writing_path'),
                    'index-wise': ('.index-wise', '.index-template', 'index_template_path'),
                    'spict-wise': ('.spict-wise', '.spict-template', 'spict_template_path'),
@@ -333,7 +363,7 @@ data and keep raw data local. Package-install consent is recorded in
                 path = self.home / directory / 'config.json'
                 if path.exists():
                     merged.update(json.loads(path.read_text()))
-            merged.update({key: str(self.location(name)), 'skills_synced_to': ['~/.claude/skills', '~/.agents/skills']})
+            merged.update({key: str(self.location(name)), 'skills_synced_to': list(dict.fromkeys(merged.get('skills_synced_to', []) + ['~/' + target.relative_to(self.home).as_posix() for target in self.skill_targets(agents)]))})
             for directory in dict.fromkeys([canonical, legacy]):
                 path = self.home / directory / 'config.json'
                 content = json.dumps(merged, indent=2) + '\n'
@@ -393,6 +423,11 @@ data and keep raw data local. Package-install consent is recorded in
                         self.register_link(reg['path'], source, owner, update=True)
                     except ValueError as error:
                         results.append({'status': 'modified-registration-preserved', 'detail': str(error)})
+            for reg in [r for r in list(self.state['registrations']) if r['kind'] == 'block']:
+                try:
+                    self.register_block(reg['path'])
+                except ValueError as error:
+                    results.append({'status': 'modified-instructions-preserved', 'detail': str(error)})
             self.state['history'].append({'operation': 'update', 'at': stamp(), 'results': results})
             self.save()
         return results
@@ -402,14 +437,7 @@ data and keep raw data local. Package-install consent is recorded in
         for reg in self.state['registrations']:
             path = Path(reg['path'])
             # Only exact recorded entries inside supported user agent locations are eligible.
-            relative = path.relative_to(self.home) if path.is_relative_to(self.home) else None
-            parts = relative.parts if relative else ()
-            allowed = (reg['kind'] == 'block' and parts in [('.claude', 'CLAUDE.md'), ('.codex', 'AGENTS.md')]) or (
-                reg['kind'] == 'skill' and len(parts) == 3 and parts[0] in ['.claude', '.agents', '.codex'] and
-                parts[1] == 'skills' and re.fullmatch(r'[a-z0-9][a-z0-9-]*', parts[2])) or (
-                reg['kind'] == 'skill' and reg['owner'] == 'BAIT' and len(parts) == 2 and
-                parts[0] in ['.claude', '.agents', '.codex'] and parts[1] == 'knowledge')
-            allowed = allowed and path.parent.resolve().is_relative_to(self.home) and not (reg['kind'] == 'block' and path.is_symlink())
+            allowed = registration_allowed(self.home, path, reg['kind'], reg['owner'])
             previous = reg.get('backup')
             if allowed and reg['kind'] != 'block' and reg.get('previous'):
                 backup = Path(previous) if previous else None

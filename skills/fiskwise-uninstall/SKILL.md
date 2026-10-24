@@ -5,7 +5,20 @@ description: Preview and, only after explicit confirmation, remove recorded Fisk
 
 # Confirmed uninstall
 
-Read `../../docs/LIFECYCLE.md`. First run `python3 scripts/fiskwise.py uninstall` and show exact paths to remove and preserve. **Ask for confirmation before any removal.** Use the digest from that approved current preview with `uninstall --apply --confirm DIGEST`. If entries change, show the new preview and obtain fresh approval.
+The user only needs `uninstall Fiskwise` (case-insensitive).
+Run the full workflow below; do not ask for longer prompts or user-run scripts.
+Resolve the local Fiskwise repository from `~/.fiskwise/config.json` →
+`components.fiskwise.path`, or the checkout you are currently reading. If this is a
+first install from GitHub, reuse a valid existing checkout or clone the canonical
+repository to a sensible user-owned location (not a drive root). Read its AGENTS.md.
+Read `docs/LIFECYCLE.md` and `docs/AGENT-SUPPORT.md` **relative to that repository**;
+run helper scripts there by absolute path. A copied skill's directory is not the
+repository root. Do not rely on `../../docs` from a registered copy.
+
+
+Use the repository lifecycle documentation above. First run `python3 scripts/fiskwise.py uninstall` and show exact paths to remove and preserve. **Ask for confirmation before any removal.** Use the digest from that approved current preview with `uninstall --apply --confirm DIGEST`. If entries change, show the new preview and obtain fresh approval.
+
+Process all recorded agent profiles, not only the currently active agent.
 
 Default removal covers only Fiskwise-created registered skills and managed instruction blocks with matching ownership fingerprints. Preserve modified/ambiguous entries, unrelated instructions and adopted/pre-existing registrations. Offer adopted detachment separately with a new `--include-adopted` preview; restore backed-up prior registrations. Unlink skills without deleting source repositories. Retain R, Quarto, R packages and research projects.
 

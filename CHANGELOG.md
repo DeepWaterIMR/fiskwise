@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4 — 2026-10-24
+
+- Make the three short install/update/uninstall prompts the complete user interface; repository entry points bootstrap the full lifecycle skills.
+- Register native discovery paths for common coding agents, deduplicate shared roots, and update routing blocks across recorded agents.
+- Resolve copied lifecycle skills through the installation registry so copy-only hosts can find repository helpers and docs.
+- Document supported hosts and preserve ownership checks for every agent during update and uninstall.
+
 ## 0.1.3 — 2026-10-23
 
 - Preserve selected development/prerelease toolchains and versions newer than stable metadata during runtime checks.
