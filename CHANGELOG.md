@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6 — 2026-10-24
+
+- Record the published ggOceanMaps revisions after preserving a concurrent upstream fix.
+
 ## 0.1.5 — 2026-10-24
 
 - Standardize patch-per-commit version/date hooks across all maintained knowledge packs and R source packages.

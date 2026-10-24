@@ -194,7 +194,9 @@ Validation: all 55 isolated tests and nine desktop/mobile/narrow browser tests p
 | BAIT | 0.2.18 | `260f4a6` |
 | index-wise | 0.2.2 | `c95e9d4` |
 | spict-wise | 0.2.2 | `7d300e1` |
-| ggOceanMaps | 3.0.4 | `69e35bc` |
+| ggOceanMaps | 3.0.5 | `5d23248` |
 | ggFishPlots | 0.4.7 | `42904f6` |
 
-Fiskwise version/revision is the 0.1.5 commit containing this ledger. Published guide: https://deepwaterimr.github.io/fiskwise/getting-started.html. No tags, releases, CRAN submissions, installed R packages, or research projects were changed.
+Fiskwise version/revision is the 0.1.6 commit containing this ledger. Published guide: https://deepwaterimr.github.io/fiskwise/getting-started.html. No tags, releases, CRAN submissions, installed R packages, or research projects were changed.
+
+Publication follow-up: ggOceanMaps had an upstream get_depth fix at 2cab852. The two policy commits were rebased onto it, preserving the upstream implementation and advancing DESCRIPTION from 3.0.3 to 3.0.4 and 3.0.5. No force push was used.
