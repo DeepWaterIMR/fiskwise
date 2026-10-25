@@ -313,6 +313,17 @@ package_status <- function(pkg, installed, cran_index, sha_lookup = github_sha) 
        latest_sha = sha, same = same, ref = ref)
 }
 
+# Recognize only our own verified SHA installs; preserve user-selected refs.
+managed_installed <- function(pkg, installed, recorded) {
+  if (!is.null(installed) && identical(recorded$requested_ref, "default") &&
+      identical(recorded$source, pkg$source) &&
+      identical(recorded$remote_sha, installed$remote_sha) &&
+      identical(recorded$remote_ref, installed$remote_ref)) {
+    installed$remote_ref <- "default"
+  }
+  installed
+}
+
 usage <- function() cat("Usage: Rscript scripts/manage_r_packages.R [--component NAME] [--apply]\n",
                         "Default mode only reports; apply needs consent.r_packages=true in ~/.fiskwise/config.json.\n",
                         "R_AW_INSTALL_MISSING=false and any ancestor renv project block installs.\n", sep = "")
@@ -363,11 +374,13 @@ main <- function(args = commandArgs(trailingOnly = TRUE)) {
     cat("Package changes skipped because required runtime dependency metadata could not be verified.\n")
   }
 
+  preserved <- character()
   for (pkg in packages) {
     name <- pkg$name
-    installed <- installed_package(name)
+    installed <- managed_installed(pkg, installed_package(name), registry$r_packages[[name]])
     status <- package_status(pkg, installed, cran_index, sha_lookup = sha_lookup)
     if (identical(status$state, "custom pin preserved") || identical(status$state, "missing; no ref selected")) {
+      preserved <- c(preserved, name)
       cat(sprintf("%-24s %s\n", name, status$state))
       next
     }
@@ -390,21 +403,25 @@ main <- function(args = commandArgs(trailingOnly = TRUE)) {
           utils::install.packages("remotes", lib = user_lib, repos = repos,
                                   dependencies = c("Depends", "Imports", "LinkingTo"))
         }
-        ref <- status$ref
-        repo <- if (identical(ref, "default")) pkg$source else paste0(pkg$source, "@", ref)
+        repo <- paste0(pkg$source, "@", latest_sha)
         install_args <- list(repo = repo, lib = user_lib,
                              dependencies = c("Depends", "Imports", "LinkingTo"), upgrade = "never")
         if (!is.null(pkg$subdir)) install_args$subdir <- pkg$subdir
         do.call(remotes::install_github, install_args)
+        verified <- installed_package(name)
+        if (is.null(verified) || !identical(tolower(verified$remote_sha), tolower(latest_sha))) {
+          stop("Installed revision could not be verified for ", name, call. = FALSE)
+        }
       }
     }
   }
   if (apply_allowed) {
     registry$r_packages <- registry$r_packages %||% list()
     for (pkg in packages) {
+      if (pkg$name %in% preserved) next
       installed <- installed_package(pkg$name)
       if (is.null(installed)) next
-      registry$r_packages[[pkg$name]] <- c(installed, list(source = pkg$source,
+      registry$r_packages[[pkg$name]] <- c(installed, list(source = pkg$source, requested_ref = pkg$ref %||% "default",
         checked_at = format(Sys.time(), tz = "UTC", usetz = TRUE)))
     }
     temporary <- paste0(registry_file, ".packages.tmp")

@@ -32,7 +32,7 @@ test('getting-started guide keeps lifecycle prompts accessible and responsive', 
   });
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('./getting-started.html');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Install only what your research needs.');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tell your agent what you want to do.');
   await expect(page.locator('#prompt-install')).toHaveText('install https://github.com/DeepWaterIMR/fiskwise');
   await expect(page.locator('#prompt-update')).toHaveText('update Fiskwise');
   await expect(page.locator('#prompt-uninstall')).toHaveText('uninstall Fiskwise');
@@ -71,3 +71,16 @@ test('keyboard users reach a visible skip link and main content', async ({ page 
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/#main$/);
 });
+
+for (const component of packages.filter(p => p.overview)) {
+  test(`${component.name} landing page has a usable prompt without JavaScript`, async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    await page.goto((process.env.FISKWISE_TEST_URL || 'http://127.0.0.1:8766/fiskwise/') + component.name + '.html');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(component.name);
+    await expect(page.locator('pre')).toContainText(component.repo);
+    await expect(page.locator('.example-prompt')).toHaveText(component.example);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await context.close();
+  });
+}

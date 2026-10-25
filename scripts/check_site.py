@@ -55,6 +55,7 @@ def main():
     assert home_source.count('<span class="planned">Planned</span>') == planned_count
     assert "<!-- KNOWLEDGE_PACKS -->" not in home_source
     assert "<!-- R_PACKAGES -->" not in home_source
+    assert "<!-- PLANNED_PACKS -->" not in home_source
 
     for package in packages:
         assert package["name"] in home_source

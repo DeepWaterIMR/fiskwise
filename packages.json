@@ -2,11 +2,11 @@
   {
     "name": "wise-writing",
     "kind": "knowledge",
-    "label": "Write with a reproducible foundation",
-    "purpose": "Scientific writing, reproducible documents, and review.",
+    "label": "The shared scientific foundation",
+    "purpose": "R code, scientific writing, reproducible Quarto documents, and review.",
     "detail": "Structure manuscripts, data reports, cruise reports, assessments, advice sheets, and benchmarks with shared writing conventions and Quarto templates.",
     "repo": "https://github.com/DeepWaterIMR/wise-writing",
-    "site": null,
+    "site": "https://deepwaterimr.github.io/fiskwise/wise-writing.html",
     "status": "available",
     "icon": "writing",
     "accent": "#5360A5",
@@ -87,7 +87,10 @@
       "availability": "available",
       "managed_updates": true,
       "database_refresh": false
-    }
+    },
+    "role": "core",
+    "example": "Turn my analysis scripts into a reproducible Quarto data report, with methods, figures and limitations.",
+    "overview": "https://deepwaterimr.github.io/fiskwise/wise-writing.html"
   },
   {
     "name": "wise-presentations",
@@ -100,19 +103,19 @@
     "status": "available",
     "icon": "presentations",
     "accent": "#9C572B",
-    "skills": "make-presentation; review-presentation; maintain-presentation-template",
+    "skills": "make-presentation; review-presentation; maintain-presentation-template; wise-presentations-install; wise-presentations-update",
     "install": null,
     "owner": "DeepWaterIMR",
     "license": "https://github.com/DeepWaterIMR/wise-presentations/blob/main/LICENSE",
-    "core": true,
+    "core": false,
     "dependencies": [
       "wise-writing"
     ],
     "skill_roots": [
       ".agents/skills"
     ],
-    "install_skill": null,
-    "update_skill": null,
+    "install_skill": "wise-presentations-install",
+    "update_skill": "wise-presentations-update",
     "install_script": "scripts/install_global_skills.R",
     "r_packages": [
       {
@@ -140,7 +143,10 @@
       "availability": "available",
       "managed_updates": true,
       "database_refresh": false
-    }
+    },
+    "role": "presentations",
+    "example": "Turn this report into a ten-minute scientific presentation. Propose the story and slide plan first.",
+    "overview": "https://deepwaterimr.github.io/fiskwise/wise-presentations.html"
   },
   {
     "name": "BAIT",
@@ -189,7 +195,22 @@
       "availability": "available",
       "managed_updates": true,
       "database_refresh": false
-    }
+    },
+    "role": "data",
+    "example": "Use BAIT to summarise survey catches by year, checking sampling units and true zeros before plotting.",
+    "overview": "https://deepwaterimr.github.io/fiskwise/BAIT.html",
+    "supporting_tools": [
+      {
+        "name": "BioticExplorerServer",
+        "url": "https://deepwaterimr.github.io/BioticExplorerServer/",
+        "purpose": "Build and maintain the local Biotic database"
+      },
+      {
+        "name": "BioticExplorer",
+        "url": "https://github.com/DeepWaterIMR/BioticExplorer",
+        "purpose": "Explore Biotic data interactively"
+      }
+    ]
   },
   {
     "name": "index-wise",
@@ -232,7 +253,17 @@
       "availability": "available",
       "managed_updates": true,
       "database_refresh": false
-    }
+    },
+    "role": "methods",
+    "example": "Build a survey index for this species. Review the data qualification and model diagnostics with me.",
+    "overview": "https://deepwaterimr.github.io/fiskwise/index-wise.html",
+    "supporting_tools": [
+      {
+        "name": "sdmTMBexperiments",
+        "url": "https://deepwaterimr.github.io/sdmTMBexperiments/",
+        "purpose": "Model comparisons and diagnostics"
+      }
+    ]
   },
   {
     "name": "spict-wise",
@@ -270,7 +301,10 @@
       "availability": "available",
       "managed_updates": true,
       "database_refresh": false
-    }
+    },
+    "role": "methods",
+    "example": "Use my catch series and selected survey index for a SPiCT assessment, with sensitivity checks and a report.",
+    "overview": "https://deepwaterimr.github.io/fiskwise/spict-wise.html"
   },
   {
     "name": "gadget-wise",

@@ -7,6 +7,7 @@ The complete user interface is (case-insensitive):
 | User request | Read and execute |
 |---|---|
 | `install https://github.com/DeepWaterIMR/fiskwise` or `install Fiskwise` | [fiskwise-install](skills/fiskwise-install/SKILL.md) |
+| `check Fiskwise` or `repair Fiskwise` | [fiskwise-check](skills/fiskwise-check/SKILL.md) |
 | `update Fiskwise` | [fiskwise-update](skills/fiskwise-update/SKILL.md) |
 | `uninstall Fiskwise` | [fiskwise-uninstall](skills/fiskwise-uninstall/SKILL.md) |
 

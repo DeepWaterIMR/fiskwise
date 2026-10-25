@@ -64,7 +64,7 @@ shadowing rather than claiming the new skill is active.
 - Identify the repository through `~/.fiskwise/config.json` → `components.fiskwise.path`.
   Copied skill directories are not repositories; do not resolve repository docs/scripts
   relative to the copy. Internal skill assets stay inside their skill folder.
-- Register all four Fiskwise skills and canonical component skills; skip forwarding
+- Register all Fiskwise skills and canonical component skills; skip forwarding
   compatibility entries. Back up prior registrations and retain their ownership origin.
 - Verify the host's skill list (and origin where shown). Some clients need a skill reload
   or a new session. Do not promise that cached sessions reload automatically.
@@ -100,3 +100,23 @@ that is not an end-to-end execution test in every proprietary client.
 - [Windsurf/Cascade skills](https://docs.windsurf.com/windsurf/cascade/skills) (current documentation redirects to Devin desktop/Cascade)
 - [Cline skills](https://docs.cline.bot/customization/skills)
 - [Roo Code skills](https://docs.roocode.com/features/skills)
+
+## Capability contract and resource resolution
+
+Any capable agent may read the pack's AGENTS.md directly, even without native skill
+registration. Research tasks need local file reading and, when executing analyses,
+R/Quarto command execution and output inspection. Background execution must retain a
+log and completion status; screen is one possible Unix implementation, not a required
+agent feature. Review code with the host's tools or a careful independent pass.
+
+Copied skills resolve resources through their component config (or the Fiskwise
+registry), rather than assuming an agent-specific knowledge folder. The source pack
+must remain available. Native resource links within a skill remain relative; external
+links resolve from that skill's source location. Verify from an unrelated working
+directory. A moved checkout needs its saved location updated through installation.
+
+Filesystem tests are not live-client compatibility evidence. Evaluate a fresh session
+on each claimed client with install-without-R, copied resources, read-only checks,
+custom data paths and an existing project. Record client/version, pack revisions,
+completion, interventions and context cost; use synthetic data and compare against
+an unassisted or previous-version baseline. Do not label an untested client verified.

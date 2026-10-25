@@ -1,7 +1,7 @@
 # Fiskwise — Agentic AI tools for fisheries science
 
 <!-- version -->
-**Version 0.1.6** (2026-10-24)
+**Version 0.1.7** (2026-10-25)
 <!-- /version -->
 
 [![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)
@@ -57,11 +57,11 @@ Antigravity, Mistral Vibe Code, Gemini CLI, Cursor, Copilot CLI, or OpenCode.
 The installer handles their [documented skill-discovery locations](docs/AGENT-SUPPORT.md).
 Browser-only chat and hosts that cannot read/write local files cannot install local skills.
 
-Core installation registers **wise-writing and wise-presentations first**, even when
+Core installation registers **wise-writing first**, even when
 R is missing. Fiskwise then guides toolchain checks and asks for revocable permission
 before installing/updating managed R packages (including ggOceanMaps and ggFishPlots).
 R, Quarto CLI and system tools require separate approval. Declining package permission
-keeps the skills usable and reports incomplete runtime setup. Model packs are installed
+keeps the skills usable and reports incomplete runtime setup. Presentations and method packs are installed
 on demand; BAIT is offered to IMR users with its own privacy/database choices.
 
 Use `Update Fiskwise` for installed software, or `Uninstall Fiskwise` for an
@@ -71,7 +71,7 @@ are separate choices. See [Getting started](https://deepwaterimr.github.io/fiskw
 and the [lifecycle implementation](docs/LIFECYCLE.md).
 
 Fiskwise owns `fiskwise-workflow`, `fiskwise-install`, `fiskwise-update` and
-`fiskwise-uninstall`. wise-writing owns shared `r-code-style`, `r-package-setup` and
+`fiskwise-uninstall`, plus `fiskwise-check` for readiness and repair. wise-writing owns shared `r-code-style`, `r-package-setup` and
 `quarto-reporting`; specialist methods stay in their packs. Fiskwise research uses R,
 tidyverse and Quarto, with `r-code-style` for new/edited R code. Website/maintenance
 work retains suitable tooling. Delegate only when total expected cost is lower,

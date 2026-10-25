@@ -293,6 +293,32 @@ class LifecycleTest(unittest.TestCase):
         self.assertTrue(any(item["status"] == "modified-registration-preserved" for item in results))
         self.assertEqual((target / "SKILL.md").read_text(), "local customization\n")
 
+    def test_update_adds_new_skills_refreshes_auxiliary_copies_and_preserves_collisions(self):
+        self.manager.install(include=['BAIT'], selected=['cline'], allow_clone=False, prefer_copy=True)
+        skill = self.workspace / 'wise-writing/skills/new-skill'
+        skill.mkdir()
+        (skill / 'SKILL.md').write_text('---\nname: new-skill\ndescription: new\n---\n')
+        knowledge = self.workspace / 'BAIT/knowledge/new.md'
+        knowledge.write_text('updated knowledge')
+        results = self.manager.update(apply=True)
+        target = self.home / '.cline/skills/new-skill'
+        self.assertEqual((target / 'SKILL.md').read_text(), (skill / 'SKILL.md').read_text())
+        self.assertFalse(target.is_symlink())
+        self.assertEqual((self.home / '.agents/knowledge/new.md').read_text(), 'updated knowledge')
+        shutil.rmtree(skill)
+        results = self.manager.update(apply=True)
+        self.assertTrue(any(r['status'] == 'retired-registration-retained' and r['path'] == str(target) for r in results))
+        self.assertTrue(target.exists())
+        collision = self.workspace / 'wise-writing/skills/local-skill'
+        collision.mkdir()
+        (collision / 'SKILL.md').write_text('---\nname: local-skill\ndescription: new\n---\n')
+        local = self.home / '.cline/skills/local-skill'
+        local.mkdir()
+        (local / 'SKILL.md').write_text('user skill')
+        results = self.manager.update(apply=True)
+        self.assertEqual((local / 'SKILL.md').read_text(), 'user skill')
+        self.assertTrue(any(r['status'] == 'unmanaged-registration-preserved' for r in results))
+
     def test_duplicate_skill_ownership_is_rejected(self):
         duplicate = self.workspace / "BAIT/skills/writing-skill"
         duplicate.mkdir()

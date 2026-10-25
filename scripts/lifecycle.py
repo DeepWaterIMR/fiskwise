@@ -142,7 +142,8 @@ class Manager:
         configs = {'wise-writing': ('.wise-writing', '.academic-writing', 'academic_writing_path'),
                    'index-wise': ('.index-wise', '.index-template', 'index_template_path'),
                    'spict-wise': ('.spict-wise', '.spict-template', 'spict_template_path'),
-                   'BAIT': ('.bait', '.bait', 'bait_path')}
+                   'BAIT': ('.bait', '.bait', 'bait_path'),
+                   'wise-presentations': ('.wise-presentations', '.wise-presentations', 'wise_presentations_path')}
         if name in configs:
             canonical, legacy, key = configs[name]
             for directory in dict.fromkeys([canonical, legacy]):
@@ -197,6 +198,7 @@ class Manager:
 For short requests (case-insensitive), read and follow the corresponding full skill:
 - `install https://github.com/DeepWaterIMR/fiskwise` or `install Fiskwise`:
   {self.root / 'skills/fiskwise-install/SKILL.md'}
+- `check Fiskwise` or `repair Fiskwise`: {self.root / 'skills/fiskwise-check/SKILL.md'}
 - `update Fiskwise`: {self.root / 'skills/fiskwise-update/SKILL.md'}
 - `uninstall Fiskwise`: {self.root / 'skills/fiskwise-uninstall/SKILL.md'}
 
@@ -333,7 +335,7 @@ data and keep raw data local. Package-install consent is recorded in
                 self.register_link(target, source, owner, prefer_copy=prefer_copy)
         for target in self.instruction_targets(agents):
             self.register_block(target)
-        self.state.setdefault('agents', {}).update({agent: {'skills': str(self.home / PROFILES[agent]['skills']), 'instructions': str(self.home / PROFILES[agent]['instructions']) if PROFILES[agent]['instructions'] else None} for agent in agents})
+        self.state.setdefault('agents', {}).update({agent: {'skills': str(self.home / PROFILES[agent]['skills']), 'instructions': str(self.home / PROFILES[agent]['instructions']) if PROFILES[agent]['instructions'] else None, 'prefer_copy': prefer_copy} for agent in agents})
         self.component_configs(names, agents)
         bait_config = self.home / '.bait/config.json'
         if 'BAIT' in names and bait_config.exists():
@@ -357,7 +359,8 @@ data and keep raw data local. Package-install consent is recorded in
         configs = {'wise-writing': ('.wise-writing', '.academic-writing', 'academic_writing_path'),
                    'index-wise': ('.index-wise', '.index-template', 'index_template_path'),
                    'spict-wise': ('.spict-wise', '.spict-template', 'spict_template_path'),
-                   'BAIT': ('.bait', '.bait', 'bait_path')}
+                   'BAIT': ('.bait', '.bait', 'bait_path'),
+                   'wise-presentations': ('.wise-presentations', '.wise-presentations', 'wise_presentations_path')}
         for name in names:
             if name not in configs:
                 continue
@@ -420,14 +423,47 @@ data and keep raw data local. Package-install consent is recorded in
             except subprocess.CalledProcessError:
                 item['status'] = 'remote-check-unavailable'
         if apply:
-            # Refresh only unchanged managed registrations; do not replace customized copies.
+            # Reconcile desired skills, including skills introduced since installation.
             owners = list(self.state['components'])
-            for skill, (owner, source) in self.sources(owners).items():
-                for reg in [r for r in list(self.state['registrations']) if r['owner'] == owner and Path(r['path']).name == skill and r['kind'] == 'skill']:
+            sources = self.sources(owners)
+            parents = {parent: self.state['agents'][agent].get('prefer_copy', False)
+                       for agent in self.state.get('agents', {}) if agent in PROFILES
+                       for parent in self.skill_targets([agent])}
+            # Older registries may lack agent profiles. Recover only known skill roots.
+            for reg in self.state['registrations']:
+                target = Path(reg['path'])
+                if reg['kind'] == 'skill' and target.parent.name == 'skills' and registration_allowed(self.home, target, 'skill', reg['owner']):
+                    parents.setdefault(target.parent, reg.get('installed', {}).get('kind') == 'directory')
+            desired = set()
+            for skill, (owner, source) in sources.items():
+                for parent, prefer_copy in parents.items():
+                    target = parent / skill
+                    desired.add(str(target))
+                    existing = next((r for r in self.state['registrations'] if r['path'] == str(target)), None)
+                    # Updates must not adopt unrelated files that appeared after setup.
+                    if not existing and fingerprint(target) is not None:
+                        results.append({'status': 'unmanaged-registration-preserved', 'path': str(target)})
+                        continue
                     try:
-                        self.register_link(reg['path'], source, owner, update=True)
+                        self.register_link(target, source, owner, update=True, prefer_copy=prefer_copy)
                     except ValueError as error:
                         results.append({'status': 'modified-registration-preserved', 'detail': str(error)})
+            for reg in list(self.state['registrations']):
+                if reg['kind'] != 'skill' or reg['path'] in desired:
+                    continue
+                target = Path(reg['path'])
+                # Legacy BAIT auxiliary copies must refresh too. Keep retired skills
+                # recorded for reversible uninstall, and make retirement visible.
+                if reg['owner'] == 'BAIT' and target.name == 'knowledge' and target.parent.name != 'skills':
+                    source = self.location('BAIT') / 'knowledge'
+                    if source.is_dir():
+                        try:
+                            self.register_link(target, source, 'BAIT', update=True)
+                        except ValueError as error:
+                            results.append({'status': 'modified-registration-preserved', 'detail': str(error)})
+                else:
+                    results.append({'status': 'retired-registration-retained', 'path': reg['path'],
+                                    'note': 'Review or uninstall this retired skill; it is no longer supplied by the pack.'})
             for reg in [r for r in list(self.state['registrations']) if r['kind'] == 'block']:
                 try:
                     self.register_block(reg['path'])
