@@ -42,14 +42,20 @@ def run_version(command: list[str], pattern: str | None = None) -> str | None:
     return output.splitlines()[0] if output else None
 
 
-def fetch_text(url: str, timeout: float = 5.0) -> str | None:
-    """Fetch official release metadata; offline, HTTP, and parse failures are unknown."""
+def fetch_text(url: str, timeout: float = 20.0, attempts: int = 2) -> str | None:
+    """Fetch official release metadata; offline, HTTP, and parse failures are unknown.
+
+    CRAN's TLS handshake can take well over five seconds, so allow a generous
+    timeout and one retry before reporting the release as unknown.
+    """
     request = urllib.request.Request(url, headers={"User-Agent": "Fiskwise-runtime-check/1.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            return response.read().decode("utf-8", errors="replace")
-    except (OSError, urllib.error.URLError, TimeoutError, ValueError):
-        return None
+    for _ in range(max(1, attempts)):
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                return response.read().decode("utf-8", errors="replace")
+        except (OSError, urllib.error.URLError, TimeoutError, ValueError):
+            continue
+    return None
 
 
 def stable_lines(versions: Iterable[str], count: int = 2) -> list[str]:

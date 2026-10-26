@@ -7,6 +7,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+import unittest.mock
 from unittest.mock import patch
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "check_runtime.py"
@@ -36,6 +37,17 @@ class StableReleaseTests(unittest.TestCase):
             runtime.CRAN_R_INDEX + "R-3/": '<a href="R-3.6.3.tar.gz">R</a>',
         }
         self.assertEqual(runtime.official_r_versions(lambda url: pages.get(url)), ["4.6.1", "3.6.3"])
+
+    def test_fetch_retries_slow_handshake_before_reporting_unknown(self):
+        response = unittest.mock.MagicMock()
+        response.__enter__.return_value.read.return_value = b"R-4.6.1.tar.gz"
+        with patch.object(runtime.urllib.request, "urlopen",
+                          side_effect=[TimeoutError("handshake timed out"), response]) as urlopen:
+            self.assertEqual(runtime.fetch_text(runtime.CRAN_R_INDEX), "R-4.6.1.tar.gz")
+        self.assertEqual(urlopen.call_count, 2)
+        self.assertGreaterEqual(urlopen.call_args.kwargs["timeout"], 20)
+        with patch.object(runtime.urllib.request, "urlopen", side_effect=TimeoutError("offline")):
+            self.assertIsNone(runtime.fetch_text(runtime.CRAN_R_INDEX))
 
     def test_quarto_metadata_excludes_prerelease_and_keeps_full_version(self):
         releases = json.dumps([
@@ -91,6 +103,8 @@ class RPackageManagerTests(unittest.TestCase):
             'stopifnot(!installation_permitted(TRUE, TRUE, "false", FALSE, tempdir())); '
             'stopifnot(!installation_permitted(TRUE, TRUE, "", TRUE, tempdir())); '
             'stopifnot(!installation_permitted(TRUE, FALSE, "", FALSE, tempdir())); '
+            'stopifnot(is.null(installed_package("fiskwiseNoSuchPackage"))); '
+            'stopifnot(is.null(installed_description("fiskwiseNoSuchPackage"))); '
             'stopifnot(identical(unname(cran_repo_options(c(CRAN="@CRAN@"))), "https://cloud.r-project.org")); '
             'idx <- matrix("", nrow=4, ncol=6, dimnames=list(c("foo", "bar", "ghdep", "suggested"), c("Package", "Version", "Depends", "Imports", "LinkingTo", "Suggests"))); '
             'idx["foo", "Version"] <- "2.0.0"; idx["foo", "Imports"] <- "bar (>= 1.0)"; '

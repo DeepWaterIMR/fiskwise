@@ -211,7 +211,7 @@ description_github_remotes <- function(description) {
 expand_github_packages <- function(packages, cran_index, sha_lookup = github_sha,
                                    description_lookup = read_github_description,
                                    installed_lookup = installed_package,
-                                   installed_description_lookup = function(name) tryCatch(utils::packageDescription(name, lib.loc = .libPaths()), error = function(e) NULL),
+                                   installed_description_lookup = installed_description,
                                    base_packages = rownames(utils::installed.packages(priority = c("base", "recommended")))) {
   entries <- packages
   seen <- names(entries)
@@ -279,8 +279,15 @@ expand_github_packages <- function(packages, cran_index, sha_lookup = github_sha
   list(packages = entries, unknown = unique(unknown))
 }
 
+# packageDescription() returns NA with a warning, not an error, for a missing package.
+installed_description <- function(name) {
+  desc <- tryCatch(suppressWarnings(utils::packageDescription(name, lib.loc = .libPaths())),
+                   error = function(e) NULL)
+  if (!is.list(desc)) NULL else desc
+}
+
 installed_package <- function(name) {
-  desc <- tryCatch(utils::packageDescription(name, lib.loc = .libPaths()), error = function(e) NULL)
+  desc <- installed_description(name)
   if (is.null(desc)) return(NULL)
   list(version = as.character(desc$Version), remote_sha = as.character(desc$RemoteSha %||% NA_character_),
        remote_ref = as.character(desc$RemoteRef %||% NA_character_),
