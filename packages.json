@@ -268,6 +268,7 @@
     },
     "role": "methods",
     "example": "Build a survey index for this species. Review the data qualification and model diagnostics with me.",
+    "example_existing": "My sdmTMB index in this repository fails sanity(). Diagnose it and check whether my model comparison is valid.",
     "overview": "https://deepwaterimr.github.io/fiskwise/index-wise.html",
     "supporting_tools": [
       {
@@ -316,6 +317,7 @@
     },
     "role": "methods",
     "example": "Use my catch series and selected survey index for a SPiCT assessment, with sensitivity checks and a report.",
+    "example_existing": "Review my existing SPiCT fit: check the priors, the acceptance diagnostics and the retrospective pattern.",
     "overview": "https://deepwaterimr.github.io/fiskwise/spict-wise.html"
   },
   {
@@ -383,6 +385,7 @@
     ],
     "role": "methods",
     "example": "Set up a gadget3 model for my stock with two sub-stocks, a commercial fleet and a survey, then fit, reweight and run the retro.",
+    "example_existing": "Explain why my gadget3 survey index includes this year's recruits, and how to fix it.",
     "overview": "https://deepwaterimr.github.io/fiskwise/gadget-wise.html"
   },
   {
