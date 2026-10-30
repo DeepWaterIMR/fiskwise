@@ -8,9 +8,8 @@ description: Update Fiskwise and its installed knowledge packs and managed R pac
 The user only needs `update Fiskwise` (case-insensitive).
 Run the full workflow below; do not ask for longer prompts or user-run scripts.
 Resolve the local Fiskwise repository from `~/.fiskwise/config.json` →
-`components.fiskwise.path`, or the checkout you are currently reading. If this is a
-first install from GitHub, reuse a valid existing checkout or clone the canonical
-repository to a sensible user-owned location (not a drive root). Read its AGENTS.md.
+`components.fiskwise.path`, or the checkout you are currently reading. If neither
+exists, report that Fiskwise is not installed and stop; do not clone. Read its AGENTS.md.
 Read `docs/LIFECYCLE.md` and `docs/AGENT-SUPPORT.md` **relative to that repository**;
 run helper scripts there by absolute path. A copied skill's directory is not the
 repository root. Do not rely on `../../docs` from a registered copy.

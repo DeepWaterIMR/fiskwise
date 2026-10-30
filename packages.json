@@ -229,8 +229,10 @@
     "license": "https://github.com/DeepWaterIMR/index-wise/blob/main/LICENSE",
     "core": false,
     "dependencies": [
-      "BAIT",
       "wise-writing"
+    ],
+    "optional_dependencies": [
+      "BAIT"
     ],
     "skill_roots": [
       "skills"

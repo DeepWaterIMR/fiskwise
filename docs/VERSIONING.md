@@ -74,7 +74,7 @@ instructions therefore also require checking hook activation before committing.
 
 A previously unversioned knowledge pack adopts its already-declared package/site version;
 if none exists, initialize at `0.0.1`. The first versioned commit establishes that baseline.
-Empty/planned gadget-wise and ggSurveyPlots inherit the policy when development starts;
+Planned components such as ggSurveyPlots inherit the policy when development starts;
 this policy does not create commits or metadata in their placeholders.
 
 ## Validation
