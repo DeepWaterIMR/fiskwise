@@ -17,7 +17,7 @@ revocable consent is required for managed R packages; system software and BAIT
 data setup have separate choices. Preserve adopted resources and customizations.
 Do not duplicate wise-writing reporting/package-loading implementations in packs.
 Delegate only when expected total cost (including context and review) is lower.
-Generic knowledge skills and template-free modes remain deferred.
+Method packs offer layout-independent skills (`gadget-model`, `index-sdmtmb`, `spict-model`) for existing projects.
 
 ## Ecosystem commit versions
 

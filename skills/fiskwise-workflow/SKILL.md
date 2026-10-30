@@ -19,7 +19,7 @@ Always read wise-writing's `r-code-style` before creating or editing R code. Use
 
 Delegate substantial bounded tasks to cheaper available models only when the expected **total** cost is lower, including context transfer, coordination, repeated work and review. Keep small or context-heavy tasks with the lead. Do not delegate merely to demonstrate delegation.
 
-Missing components go through `fiskwise-install`; software changes through `fiskwise-update`. Do not install packages without saved permission. Database refreshes are separate. Generic knowledge/template-free modes are deferred.
+Missing components go through `fiskwise-install`; software changes through `fiskwise-update`. Do not install packages without saved permission. Database refreshes are separate. For questions about an existing model or index outside a scaffolded project, use `gadget-model`, `index-sdmtmb` or `spict-model`.
 
 ## Ecosystem commit versions
 
