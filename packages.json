@@ -152,14 +152,14 @@
     "name": "BAIT",
     "kind": "knowledge",
     "label": "Work with Biotic data locally",
-    "purpose": "Access, preparation, analysis, and visualization of IMR Biotic data.",
-    "detail": "Connect to local data, prepare survey catches, explore maps and life histories, and follow documented confidentiality and sampling rules.",
+    "purpose": "Access, preparation, analysis, and visualization of IMR Biotic data and Norwegian catch data.",
+    "detail": "Connect to local data, prepare survey catches, extract sales-note and logbook catch series, explore maps and life histories, and follow documented confidentiality and sampling rules.",
     "repo": "https://github.com/DeepWaterIMR/BAIT",
     "site": "https://deepwaterimr.github.io/BAIT/",
     "status": "available",
     "icon": "biotic",
     "accent": "#087F8C",
-    "skills": "bait-*; biotic-*",
+    "skills": "bait-*; biotic-*; catch-data",
     "install": "Install https://github.com/DeepWaterIMR/BAIT",
     "owner": "DeepWaterIMR",
     "license": "https://github.com/DeepWaterIMR/BAIT/blob/main/LICENSE",
@@ -188,6 +188,16 @@
       {
         "name": "BioticExplorerServer",
         "source": "DeepWaterIMR/BioticExplorerServer",
+        "ref": "default"
+      },
+      {
+        "name": "RstoxData",
+        "source": "StoXProject/RstoxData",
+        "ref": "default"
+      },
+      {
+        "name": "RstoxUtils",
+        "source": "DeepWaterIMR/RstoxUtils",
         "ref": "default"
       }
     ],
