@@ -17,6 +17,16 @@ Always read wise-writing's `r-code-style` before creating or editing R code. Use
 - index-wise owns sdmTMB indices; spict-wise owns SPiCT assessments; gadget-wise owns gadget3 models (structure, data-loops, fitting, diagnostics, projections, model reports). Install them on demand through their existing install skills. ggSurveyPlots remains planned.
 - Fiskwise owns routing, software lifecycle, consent and installation records. Do not duplicate specialist procedures here. All packs remain usable independently; existing skill IDs remain stable.
 
+## Typical chains
+
+| Goal | Packs, in order |
+|---|---|
+| Survey index for an assessment | BAIT (or own data) → index-wise → assessment-index hand-off → spict-wise or gadget-wise |
+| Assessment chapter and advice | spict-wise or gadget-wise → wise-writing (`academic-assessment-report`, `academic-advice-sheet`) → wise-presentations |
+| Biotic analysis report | BAIT → wise-writing (`academic-data-report`) → wise-presentations |
+
+Settle each hand-off (files, units, provenance) before starting the next pack.
+
 Delegate substantial bounded tasks to cheaper available models only when the expected **total** cost is lower, including context transfer, coordination, repeated work and review. Keep small or context-heavy tasks with the lead. Do not delegate merely to demonstrate delegation.
 
 Missing components go through `fiskwise-install`; software changes through `fiskwise-update`. Do not install packages without saved permission. Database refreshes are separate. For questions about an existing model or index outside a scaffolded project, use `gadget-model`, `index-sdmtmb` or `spict-model`.
