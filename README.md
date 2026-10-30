@@ -1,7 +1,7 @@
 # Fiskwise — Agentic AI tools for fisheries science
 
 <!-- version -->
-**Version 0.1.8** (2026-10-26)
+**Version 0.1.9** (2026-10-30)
 <!-- /version -->
 
 [![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)
@@ -33,7 +33,7 @@ independently or together. Raw confidential data must remain local.
 | [BAIT](https://github.com/DeepWaterIMR/BAIT) | Access, preparation, analysis, and visualization of IMR Biotic data | [Documentation](https://deepwaterimr.github.io/BAIT/) |
 | [index-wise](https://github.com/DeepWaterIMR/index-wise) | Development, validation, and reporting of survey indices using sdmTMB | Repository |
 | [spict-wise](https://github.com/DeepWaterIMR/spict-wise) | SPiCT stock assessments, diagnostics, sensitivity analyses, and advice | Repository |
-| [gadget-wise](https://github.com/DeepWaterIMR/gadget-wise) | Fisheries models using gadget3 — **planned; empty repository** | Not available yet |
+| [gadget-wise](https://github.com/DeepWaterIMR/gadget-wise) | gadget3 fisheries and ecosystem models: structure, data, fitting, diagnostics, projections, and reports | Repository |
 
 ## R packages
 

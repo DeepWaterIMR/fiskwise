@@ -142,6 +142,7 @@ class Manager:
         configs = {'wise-writing': ('.wise-writing', '.academic-writing', 'academic_writing_path'),
                    'index-wise': ('.index-wise', '.index-template', 'index_template_path'),
                    'spict-wise': ('.spict-wise', '.spict-template', 'spict_template_path'),
+                   'gadget-wise': ('.gadget-wise', '.gadget-wise', 'gadget_wise_path'),
                    'BAIT': ('.bait', '.bait', 'bait_path'),
                    'wise-presentations': ('.wise-presentations', '.wise-presentations', 'wise_presentations_path')}
         if name in configs:
@@ -359,6 +360,7 @@ data and keep raw data local. Package-install consent is recorded in
         configs = {'wise-writing': ('.wise-writing', '.academic-writing', 'academic_writing_path'),
                    'index-wise': ('.index-wise', '.index-template', 'index_template_path'),
                    'spict-wise': ('.spict-wise', '.spict-template', 'spict_template_path'),
+                   'gadget-wise': ('.gadget-wise', '.gadget-wise', 'gadget_wise_path'),
                    'BAIT': ('.bait', '.bait', 'bait_path'),
                    'wise-presentations': ('.wise-presentations', '.wise-presentations', 'wise_presentations_path')}
         for name in names:

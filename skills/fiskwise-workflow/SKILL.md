@@ -14,7 +14,7 @@ Always read wise-writing's `r-code-style` before creating or editing R code. Use
 - wise-writing owns writing, document conventions, code quality, package loading, reporting, and toolchain assistance.
 - wise-presentations owns slide planning, layouts, rendering, and review.
 - BAIT owns Biotic privacy, database setup/refresh, access and domain methods. Read its AGENTS.md and relevant skills; keep raw data local.
-- index-wise owns sdmTMB indices; spict-wise owns SPiCT assessments. Install them on demand through their existing install skills. gadget-wise and ggSurveyPlots remain planned.
+- index-wise owns sdmTMB indices; spict-wise owns SPiCT assessments; gadget-wise owns gadget3 models (structure, data-loops, fitting, diagnostics, projections, model reports). Install them on demand through their existing install skills. ggSurveyPlots remains planned.
 - Fiskwise owns routing, software lifecycle, consent and installation records. Do not duplicate specialist procedures here. All packs remain usable independently; existing skill IDs remain stable.
 
 Delegate substantial bounded tasks to cheaper available models only when the expected **total** cost is lower, including context transfer, coordination, repeated work and review. Keep small or context-heavy tasks with the lead. Do not delegate merely to demonstrate delegation.

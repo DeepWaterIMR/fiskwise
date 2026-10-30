@@ -99,8 +99,8 @@ class Migration:
         lines = ['## Fiskwise ecosystem', '',
                  'Fiskwise is the umbrella for the fisheries-science knowledge packs.',
                  'Canonical repositories: DeepWaterIMR/fiskwise, wise-writing, wise-presentations,',
-                 'BAIT, index-wise, spict-wise; gadget-wise is planned.',
-                 'Keep existing academic-*, biotic-*, index-*, spict-* and presentation skill IDs.',
+                 'BAIT, index-wise, spict-wise, gadget-wise.',
+                 'Keep existing academic-*, biotic-*, index-*, spict-*, gadget-* and presentation skill IDs.',
                  'Use BAIT for IMR Biotic work; read its AGENTS.md and the relevant skills.',
                  'Prefer the database path recorded in ~/.bait/config.json; keep raw data local.',
                  'Local checkouts:']

@@ -309,28 +309,69 @@
   {
     "name": "gadget-wise",
     "kind": "knowledge",
-    "label": "Fisheries models with gadget3",
-    "purpose": "A planned knowledge pack for developing fisheries models using gadget3.",
-    "detail": "The repository is reserved for future development. No installable knowledge pack is available yet.",
+    "label": "Build gadget3 models",
+    "purpose": "gadget3 fisheries and ecosystem models: structure, data, fitting, diagnostics, projections, and reports.",
+    "detail": "Scaffold a gadget3 model in the IMR or Icelandic folder format, compile data through BAIT, mfdb or your own files, build, fit and reweight the model, run jitter, retro and leave-out diagnostics, project reference points and catch options, and write the chapter with wise-writing.",
     "repo": "https://github.com/DeepWaterIMR/gadget-wise",
     "site": null,
-    "status": "planned",
+    "status": "available",
     "icon": "gadget",
-    "accent": "#64748B",
-    "skills": null,
-    "install": null,
+    "accent": "#2E7D6B",
+    "skills": "gadget-*",
+    "install": "Install https://github.com/DeepWaterIMR/gadget-wise",
     "owner": "DeepWaterIMR",
-    "license": null,
+    "license": "https://github.com/DeepWaterIMR/gadget-wise/blob/main/LICENSE",
     "core": false,
-    "dependencies": [],
-    "skill_roots": [],
-    "install_skill": null,
-    "update_skill": null,
+    "dependencies": [
+      "wise-writing"
+    ],
+    "skill_roots": [
+      "skills"
+    ],
+    "install_skill": "gadget-install",
+    "update_skill": "gadget-update",
     "lifecycle": {
-      "availability": "planned",
-      "managed_updates": false,
+      "availability": "available",
+      "managed_updates": true,
       "database_refresh": false
-    }
+    },
+    "r_packages": [
+      {
+        "name": "TMB",
+        "source": "CRAN"
+      },
+      {
+        "name": "gadget3",
+        "source": "gadget-framework/gadget3",
+        "ref": "default"
+      },
+      {
+        "name": "gadgetutils",
+        "source": "gadget-framework/gadgetutils",
+        "ref": "default"
+      },
+      {
+        "name": "gadgetplots",
+        "source": "gadget-framework/gadgetplots",
+        "ref": "default"
+      },
+      {
+        "name": "g3experiments",
+        "source": "gadget-framework/g3experiments",
+        "ref": "default"
+      },
+      {
+        "name": "pbapply",
+        "source": "CRAN"
+      },
+      {
+        "name": "ggFishPlots",
+        "source": "CRAN"
+      }
+    ],
+    "role": "methods",
+    "example": "Set up a gadget3 model for my stock with two sub-stocks, a commercial fleet and a survey, then fit, reweight and run the retro.",
+    "overview": "https://deepwaterimr.github.io/fiskwise/gadget-wise.html"
   },
   {
     "name": "ggOceanMaps",
