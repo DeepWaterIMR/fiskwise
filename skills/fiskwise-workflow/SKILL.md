@@ -21,12 +21,6 @@ Delegate substantial bounded tasks to cheaper available models only when the exp
 
 Missing components go through `fiskwise-install`; software changes through `fiskwise-update`. Do not install packages without saved permission. Database refreshes are separate. For questions about an existing model or index outside a scaffolded project, use `gadget-model`, `index-sdmtmb` or `spict-model`.
 
-## Ecosystem commit versions
+## Commits to Fiskwise repositories
 
-For every ordinary commit in a maintained Fiskwise repository, use the shared version
-hook to increment patch by **0.0.1** and stamp the update date. Knowledge packs use
-`VERSION`; R packages use DESCRIPTION `Version` and `Date`. Minor (`+0.1`) and major
-(`+1`) increments require an **explicit user request**; never choose them autonomously.
-Only then set `FISKWISE_VERSION_BUMP=minor|major` for that commit. Preserve custom hooks
-and staged-file boundaries. Merge/rebase replay retains existing stamps; no automatic
-tags/releases. See [the shared policy](https://github.com/DeepWaterIMR/fiskwise/blob/main/docs/VERSIONING.md).
+Only when committing to a maintained Fiskwise repository, follow the [version policy](https://github.com/DeepWaterIMR/fiskwise/blob/main/docs/VERSIONING.md).

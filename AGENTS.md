@@ -54,10 +54,7 @@ Method packs offer layout-independent skills (`gadget-model`, `index-sdmtmb`, `s
 
 ## Ecosystem commit versions
 
-For every ordinary commit in a maintained Fiskwise repository, use the shared version
-hook to increment patch by **0.0.1** and stamp the update date. Knowledge packs use
-`VERSION`; R packages use DESCRIPTION `Version` and `Date`. Minor (`+0.1`) and major
-(`+1`) increments require an **explicit user request**; never choose them autonomously.
-Only then set `FISKWISE_VERSION_BUMP=minor|major` for that commit. Preserve custom hooks
-and staged-file boundaries. Merge/rebase replay retains existing stamps; no automatic
-tags/releases. See [the shared policy](https://github.com/DeepWaterIMR/fiskwise/blob/main/docs/VERSIONING.md).
+Every ordinary commit in a maintained Fiskwise repository goes through the shared hook, which
+bumps the patch by **0.0.1** and stamps the date. Minor or major increments only on an
+**explicit user request** (`FISKWISE_VERSION_BUMP=minor|major`). Full policy:
+[docs/VERSIONING.md](docs/VERSIONING.md).
