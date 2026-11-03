@@ -1,7 +1,7 @@
 # Fiskwise — Agentic AI tools for fisheries science
 
 <!-- version -->
-**Version 0.1.16** (2026-11-03)
+**Version 0.1.17** (2026-11-03)
 <!-- /version -->
 
 [![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)

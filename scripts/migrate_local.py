@@ -20,6 +20,10 @@ class Migration:
         self.workspace, self.home, self.backup, self.apply = workspace, home, backup, apply
         self.operations = []
 
+    def contain(self, path):
+        if not path.parent.resolve().is_relative_to(self.home.resolve()):
+            raise ValueError(f'Agent directory resolves outside selected home; preserve for review: {path}')
+
     def save(self, path):
         if path.exists() or path.is_symlink():
             relative = path.relative_to(self.home)
@@ -35,6 +39,7 @@ class Migration:
                 shutil.copy2(path, dest)
 
     def write(self, path, content):
+        self.contain(path)
         if path.exists() and path.read_text() == content:
             return
         self.operations.append('Write ' + str(path))
@@ -44,6 +49,7 @@ class Migration:
             path.write_text(content)
 
     def managed_link(self, path, source, retire=False):
+        self.contain(path)
         exists = path.exists() or path.is_symlink()
         if retire and not exists:
             return
@@ -61,6 +67,8 @@ class Migration:
                 path.symlink_to(source, target_is_directory=True)
 
     def run(self):
+        if self.apply:
+            Migration(self.workspace, self.home, self.backup).run()  # Preflight: fail before any change
         for pack, canonical, legacy, key in CONFIGS:
             location = self.workspace / pack
             if not (location / 'AGENTS.md').exists():

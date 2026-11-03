@@ -57,5 +57,27 @@ class LocalMigrationTest(unittest.TestCase):
             self.assertIn('Original user instructions', (home / '.claude/CLAUDE.md').read_text())
             self.assertEqual(mod.Migration(workspace, home, root / 'backup2', True).run(), [])
 
+    def test_refuses_redirected_agent_directory_before_any_change(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            workspace, home, outside = root / 'packs', root / 'home', root / 'outside'
+            for pack in ['BAIT', 'wise-writing', 'index-wise', 'spict-wise', 'wise-presentations']:
+                p = workspace / pack
+                p.mkdir(parents=True)
+                (p / 'AGENTS.md').write_text('pack')
+                skill = p / ('.agents/skills' if pack == 'wise-presentations' else 'skills') / (pack + '-skill')
+                skill.mkdir(parents=True)
+                (skill / 'SKILL.md').write_text('canonical')
+            (workspace / 'BAIT/knowledge').mkdir()
+            home.mkdir()
+            (outside / 'skills').mkdir(parents=True)
+            (outside / 'skills/keep').write_text('external')
+            (home / '.agents').symlink_to(outside, target_is_directory=True)
+            with self.assertRaises(ValueError):
+                mod.Migration(workspace, home, root / 'backup', True).run()
+            self.assertEqual([p.name for p in (outside / 'skills').iterdir()], ['keep'])
+            self.assertEqual(sorted(p.name for p in home.iterdir()), ['.agents'])
+            self.assertFalse((root / 'backup').exists())
+
 if __name__ == '__main__':
     unittest.main()
