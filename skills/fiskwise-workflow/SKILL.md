@@ -27,6 +27,12 @@ Always read wise-writing's `r-code-style` before creating or editing R code. Use
 
 Settle each hand-off (files, units, provenance) before starting the next pack.
 
+## Project memory
+
+Keep a research project's durable reasoning in the repository, not in an agent's local memory: a `memory/` folder (scaffolded projects use `ai/memory/`) with a one-line-per-file `MEMORY.md` index, a short `current-status` handoff, and one file per decision or finding with its date, evidence and consequence. Any agent, on any machine or server, resumes from it. Record a superseded decision by updating or replacing its file, and move generic lessons (a package pitfall, a method rule) upstream into the owning pack rather than leaving them in one project.
+
+Where a modelling server is available, run model fits and long renders there, including development checks; laptop timings are unreliable under background load.
+
 Delegate substantial bounded tasks to cheaper available models only when the expected **total** cost is lower, including context transfer, coordination, repeated work and review. Keep small or context-heavy tasks with the lead. Do not delegate merely to demonstrate delegation.
 
 Missing components go through `fiskwise-install`; software changes through `fiskwise-update`. Do not install packages without saved permission. Database refreshes are separate. For questions about an existing model or index outside a scaffolded project, use `gadget-model`, `index-sdmtmb` or `spict-model`.
