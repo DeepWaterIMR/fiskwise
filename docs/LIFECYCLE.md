@@ -28,7 +28,7 @@ On systems without Python, an agent can use native filesystem tools: clone/reuse
 - `databases`: existing/adopted or token-based newly created provenance. Unknown provenance is never removal permission.
 - `history`: installation/update/removal audit trail. No raw research data or credentials.
 
-All CLI previews are read-only. Package checks are read-only by default. System tools always require their own approval. R installs/updates require saved consent plus an explicit apply, honor disabling controls and project libraries/pins, and use only a writable existing user library. Quarto CLI is distinct from the R package `quarto`.
+All CLI previews are read-only. Package checks are read-only by default. System tools always require their own approval. R installs/updates require saved consent plus an explicit apply, honor disabling controls and project libraries/pins, and use only a writable existing library: the first writable `R_LIBS_USER` entry, else the first writable `.libPaths()` entry. No library directory is ever created. Quarto CLI is distinct from the R package `quarto`.
 
 ## Updates
 

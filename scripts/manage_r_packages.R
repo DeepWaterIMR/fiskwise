@@ -92,12 +92,19 @@ renv_project <- function(path = getwd()) {
   }
 }
 
-existing_user_library <- function(value = Sys.getenv("R_LIBS_USER", unset = "")) {
-  candidates <- strsplit(value, .Platform$path.sep, fixed = TRUE)[[1L]]
-  candidates <- path.expand(candidates[nzchar(candidates)])
-  candidates <- candidates[dir.exists(candidates)]
-  writable <- candidates[file.access(candidates, 2L) == 0L]
-  if (length(writable)) writable[[1L]] else ""
+# The first writable existing R_LIBS_USER entry; otherwise the first writable existing
+# .libPaths() entry (e.g. a user-owned framework library on macOS when R_LIBS_USER points to a
+# folder that was never created). Never creates a directory.
+existing_user_library <- function(value = Sys.getenv("R_LIBS_USER", unset = ""),
+                                  lib_paths = .libPaths()) {
+  writable_dir <- function(paths) {
+    paths <- path.expand(paths[nzchar(paths)])
+    paths <- paths[dir.exists(paths)]
+    paths[file.access(paths, 2L) == 0L]
+  }
+  candidates <- c(writable_dir(strsplit(value, .Platform$path.sep, fixed = TRUE)[[1L]]),
+                  writable_dir(lib_paths))
+  if (length(candidates)) candidates[[1L]] else ""
 }
 
 installation_permitted <- function(apply, consent, env_value, in_renv, user_lib, dependencies_known = TRUE) {
@@ -358,7 +365,7 @@ main <- function(args = commandArgs(trailingOnly = TRUE)) {
   if (options$apply && !isTRUE(registry$consent$r_packages)) stop("Package installation requires consent.r_packages=true in ", registry_file, call. = FALSE)
   if (options$apply && renv_project()) stop("This is inside an renv project; use renv::restore() after reviewing renv.lock.", call. = FALSE)
   user_lib <- existing_user_library()
-  if (options$apply && !nzchar(user_lib)) stop("No writable existing user R library was found; no directory was created.", call. = FALSE)
+  if (options$apply && !nzchar(user_lib)) stop("No writable existing R library was found in R_LIBS_USER or .libPaths(); no directory was created.", call. = FALSE)
 
   packages <- managed_packages(inventory, registry, options$component)
   pins <- names(registry$r_package_pins %||% list())
