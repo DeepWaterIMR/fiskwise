@@ -202,6 +202,7 @@ For short requests (case-insensitive), read and follow the corresponding full sk
 - `check Fiskwise` or `repair Fiskwise`: {self.root / 'skills/fiskwise-check/SKILL.md'}
 - `update Fiskwise`: {self.root / 'skills/fiskwise-update/SKILL.md'}
 - `uninstall Fiskwise`: {self.root / 'skills/fiskwise-uninstall/SKILL.md'}
+- `report this to Fiskwise`: {self.root / 'skills/fiskwise-feedback/SKILL.md'}
 
 The short request is sufficient: do not ask the user to paste implementation steps.
 Installation means core skills AND the remaining runtime/onboarding workflow, subject
@@ -213,6 +214,9 @@ Use R/tidyverse, Quarto reports, and relevant ecosystem packages. Always use
 wise-writing's `r-code-style` for new or edited R code. Website/maintenance tooling
 is task-appropriate. Delegate only when estimated total cost is lower after
 context, coordination, repeated work, and review; keep small/context-heavy work local.
+When a Fiskwise task exposes a pack defect, a wrong or missing instruction, a user
+correction, or a task no skill covers, follow `fiskwise-feedback`: record it and offer
+a report; submit nothing without the user's approval of the text.
 Before committing in any maintained Fiskwise repository, follow the version policy:
 every ordinary commit increments patch by 0.0.1 and updates the date (VERSION for
 knowledge packs; DESCRIPTION Version/Date for R packages). Minor or major increments

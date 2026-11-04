@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add `fiskwise-feedback`: agents record pack defects, wrong instructions, user corrections, and uncovered tasks in `~/.fiskwise/feedback/pending.md` and offer approved, sanitised GitHub issues or PRs to the owning pack.
+- Add `scripts/feedback_scan.py`, a deterministic block on personal paths, credentials, emails, hosts, coordinates, and data tables in draft reports.
+- Route the trigger through `fiskwise-workflow`, `fiskwise-check`, AGENTS.md, and the managed agent instruction block; add an agent-report issue form and PR template.
+
 ## 0.1.6 — 2026-10-24
 
 - Record the published ggOceanMaps revisions after preserving a concurrent upstream fix.

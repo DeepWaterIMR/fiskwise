@@ -15,6 +15,8 @@ or the checkout containing this skill. Run its scripts by resolved absolute path
    facility when available; distinguish file checks from an actual host discovery test.
 3. Report ready, missing, modified, retired or unknown items and the next useful action.
    Do not print private configuration values or database records into the report.
+   Count `status: pending` entries in `~/.fiskwise/feedback/pending.md`, if present, and
+   offer to review them with `fiskwise-feedback`.
 4. A check is read-only. For an explicit repair request, follow `fiskwise-install` to resume
    ordinary setup without replacing user modifications. Package/system/database consent
    rules still apply. For updates, follow `fiskwise-update`; never erase the registry to

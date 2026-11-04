@@ -37,6 +37,10 @@ Delegate substantial bounded tasks to cheaper available models only when the exp
 
 Missing components go through `fiskwise-install`; software changes through `fiskwise-update`. Do not install packages without saved permission. Database refreshes are separate. For questions about an existing model or index outside a scaffolded project, use `gadget-model`, `index-sdmtmb` or `spict-model`.
 
+## Report what you learn
+
+Before wrapping up, follow `fiskwise-feedback` if you worked around a pack defect, found a skill's instructions wrong or missing, were corrected by the user on a fact a skill should have known, or did a task no skill or routing row covers. Record the finding and offer the user a report; never submit without their approval of the text.
+
 ## Commits to Fiskwise repositories
 
 Only when committing to a maintained Fiskwise repository, follow the [version policy](https://github.com/DeepWaterIMR/fiskwise/blob/main/docs/VERSIONING.md).

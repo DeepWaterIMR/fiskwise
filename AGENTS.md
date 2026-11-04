@@ -10,6 +10,7 @@ The complete user interface is (case-insensitive):
 | `check Fiskwise` or `repair Fiskwise` | [fiskwise-check](skills/fiskwise-check/SKILL.md) |
 | `update Fiskwise` | [fiskwise-update](skills/fiskwise-update/SKILL.md) |
 | `uninstall Fiskwise` | [fiskwise-uninstall](skills/fiskwise-uninstall/SKILL.md) |
+| `report this to Fiskwise` | [fiskwise-feedback](skills/fiskwise-feedback/SKILL.md) |
 
 The short request is sufficient. Do not ask the user to paste a longer prompt,
 choose scripts, or register skills manually. On first install, read the install
