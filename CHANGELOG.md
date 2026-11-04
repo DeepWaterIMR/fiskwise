@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 — 2026-11-04
+
+- Start the 0.2 series shared by all Fiskwise knowledge packs.
 
 - Add `fiskwise-feedback`: agents record pack defects, wrong instructions, user corrections, and uncovered tasks in `~/.fiskwise/feedback/pending.md` and offer approved, sanitised GitHub issues or PRs to the owning pack.
 - Add `scripts/feedback_scan.py`, a deterministic block on personal paths, credentials, emails, hosts, coordinates, and data tables in draft reports.
