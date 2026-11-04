@@ -68,6 +68,10 @@ into the chosen existing user library; otherwise report the package check incomp
 Successful applied checks record installed R versions and GitHub SHAs in `r_packages`.
 Explicit per-package pins can be recorded in the registry's `r_package_pins` map
 (package name to pin/reason); the helper excludes them, including dependency updates.
+Optional R-package components (`kind: "r"`, `core: false`, such as RstoxUtils) are never
+installed by install/update runs. Suggest them only when a task needs the package, then
+install with `Rscript scripts/manage_r_packages.R --component NAME --apply` under the same
+consent. Once installed, routine updates keep them current.
 Do not run concurrent registry writers. Re-run checks after any interrupted package job.
 
 Maintain the standalone presentation helper with `python3 scripts/sync_package_helper.py`

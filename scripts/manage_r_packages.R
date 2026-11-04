@@ -53,6 +53,12 @@ managed_packages <- function(inventory, registry, component = NULL) {
   # Core R-package components have managed inventories independently of knowledge-pack installation.
   selected <- unique(c(selected, vapply(Filter(function(p) identical(p$kind, "r") && isTRUE(p$core) &&
                                                   identical(p$status, "available"), inventory), `[[`, "", "name")))
+  # Optional R-package components are installed only on request (--component NAME);
+  # once installed, routine updates keep them current.
+  optional_installed <- Filter(function(p) identical(p$kind, "r") && !isTRUE(p$core) &&
+                                 identical(p$status, "available") && !is.null(p$r_package) &&
+                                 nzchar(system.file(package = p$r_package$name)), inventory)
+  selected <- unique(c(selected, vapply(optional_installed, `[[`, "", "name")))
   packages <- list()
   for (name in selected) {
     entry <- by_name[[name]]

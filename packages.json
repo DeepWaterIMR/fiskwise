@@ -194,11 +194,6 @@
         "name": "RstoxData",
         "source": "StoXProject/RstoxData",
         "ref": "default"
-      },
-      {
-        "name": "RstoxUtils",
-        "source": "DeepWaterIMR/RstoxUtils",
-        "ref": "default"
       }
     ],
     "lifecycle": {
@@ -426,6 +421,29 @@
     "r_package": {
       "name": "ggFishPlots",
       "source": "DeepWaterIMR/ggFishPlots",
+      "ref": "default"
+    },
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    }
+  },
+  {
+    "name": "RstoxUtils",
+    "kind": "r",
+    "purpose": "Read Norwegian commercial catch data: sales notes, ERS logbooks and FDIR codes. Optional; installed only when catch data are needed.",
+    "repo": "https://github.com/DeepWaterIMR/RstoxUtils",
+    "site": "https://deepwaterimr.github.io/RstoxUtils/",
+    "status": "available",
+    "icon": "biotic",
+    "owner": "DeepWaterIMR",
+    "license": "https://github.com/DeepWaterIMR/RstoxUtils/blob/master/LICENSE",
+    "core": false,
+    "dependencies": ["BAIT"],
+    "r_package": {
+      "name": "RstoxUtils",
+      "source": "DeepWaterIMR/RstoxUtils",
       "ref": "default"
     },
     "lifecycle": {
