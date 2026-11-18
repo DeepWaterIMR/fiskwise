@@ -149,10 +149,11 @@ def main():
         name = html.escape(p["name"])
         status = '<span class="planned">Planned</span>' if p["status"] == "planned" else ''
         links = []
-        if p["site"]:
+        overview = p.get("overview")
+        if overview:
+            links.append(link(p['name'] + '.html', 'How to use this pack', 'primary-link'))
+        if p["site"] and p["site"] != overview:
             links.append(link(p["site"], 'Explore documentation <span aria-hidden="true">↗</span>', 'primary-link'))
-        if p.get("overview") and p.get("overview") != p.get("site"):
-            links.insert(0, link(p['name'] + '.html', 'How to use this pack', 'primary-link'))
         if p["repo"]:
             links.append(link(p["repo"], 'GitHub <span aria-hidden="true">↗</span>'))
         if p["kind"] == "knowledge":

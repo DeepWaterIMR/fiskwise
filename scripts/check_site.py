@@ -60,9 +60,13 @@ def main():
     for package in packages:
         assert package["name"] in home_source
         assert package["status"] in ("available", "planned")
-        for key in ("repo", "site"):
-            if package.get(key):
-                assert package[key] in home_source, f"Missing {package['name']} {key} link"
+        if package.get("overview"):
+            overview_link = f'href="{package["name"]}.html">How to use this pack</a>'
+            assert overview_link in home_source, f"Missing {package['name']} overview link"
+        if package["site"] and package["site"] != package.get("overview"):
+            assert package["site"] in pages[home].links, f"Missing {package['name']} documentation link"
+        if package["repo"]:
+            assert package["repo"] in pages[home].links, f"Missing {package['name']} repository link"
 
     for page_path, parser in pages.items():
         for url in parser.links:
