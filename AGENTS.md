@@ -59,3 +59,11 @@ Every ordinary commit in a maintained Fiskwise repository goes through the share
 bumps the patch by **0.0.1** and stamps the date. Minor or major increments only on an
 **explicit user request** (`FISKWISE_VERSION_BUMP=minor|major`). Full policy:
 [docs/VERSIONING.md](docs/VERSIONING.md).
+
+## AI-use disclosure
+
+AI tools are not authors: never add them to `Authors@R`, `@author` or citations. Each
+maintained repository discloses AI use in a "Use of generative AI" statement, and R packages
+record per function which model wrote it and which last reviewed it in full. Before changing
+a function recorded for another model, review it in full and report suggested changes to the
+maintainer. Full policy: [docs/AI-DISCLOSURE.md](docs/AI-DISCLOSURE.md).

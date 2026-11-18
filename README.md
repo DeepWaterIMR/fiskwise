@@ -1,7 +1,7 @@
 # Fiskwise — Agentic AI tools for fisheries science
 
 <!-- version -->
-**Version 0.2.3** (2026-11-18)
+**Version 0.2.4** (2026-11-18)
 <!-- /version -->
 
 [![Publish Fiskwise](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml/badge.svg)](https://github.com/DeepWaterIMR/fiskwise/actions/workflows/pages.yml)
@@ -112,3 +112,10 @@ Every ordinary commit increments patch by **0.0.1** and records the update date.
 Minor (`+0.1`) and major (`+1`) versions change only at the user's explicit request.
 Knowledge packs use `VERSION`; R packages use DESCRIPTION `Version`/`Date`.
 See the [shared version policy](docs/VERSIONING.md).
+
+## AI-use disclosure
+
+AI coding assistants are disclosed, not credited as authors. Each maintained repository
+carries a "Use of generative AI" statement naming the model used, and R packages record per
+function which model wrote it and which last reviewed it in full. See the
+[AI-disclosure policy](docs/AI-DISCLOSURE.md).

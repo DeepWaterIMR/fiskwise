@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4 — 2026-11-18
+
+- Add `docs/AI-DISCLOSURE.md`: AI tools are disclosed, not credited as authors; a "Use of generative AI" statement per repository, per-function AI records in R packages, and a review-before-replace rule for newer models. Linked from AGENTS.md, README.md and the managed agent instruction block.
+
 ## 0.2.0 — 2026-11-04
 
 - Start the 0.2 series shared by all Fiskwise knowledge packs.
