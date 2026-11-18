@@ -1,0 +1,89 @@
+{
+  "wise-writing": {
+    "intro": "Write and review scientific documents in ecology and fisheries science with shared writing conventions and reusable R and Quarto templates.",
+    "uses": [
+      ["Revise scientific prose", "Clarify claims and uncertainty, and apply consistent conventions for units, species names, figures, and tables in any editor."],
+      ["Start from a document template", "Choose a manuscript, data report, cruise report, assessment report, advice sheet, or benchmark report. Each has a runnable Quarto starter."],
+      ["Make an analysis reproducible", "Organise your R code, data, figures, and bibliography so the analysis can be rerun and the report rendered to HTML, Word, or PDF."],
+      ["Review before sharing", "Check that edits preserve executable code, citations, and cross-references, and review the rendered document before delivery."]
+    ],
+    "setup": "wise-writing is the core Fiskwise pack. Install it on its own to edit prose in an existing document or scaffold a new Quarto project.",
+    "note": {
+      "title": "You are the author",
+      "text": "wise-writing follows ICMJE guidance. Human authors alone receive authorship credit and are accountable for the submitted work. Disclose AI use at submission and in the appropriate part of the manuscript, such as the Methods for AI-assisted analysis. Your agent reads the pack’s instructions as it works. The provider’s terms and your settings govern whether submitted text can be used for model training.",
+      "link": ["ICMJE Recommendations", "https://www.icmje.org/icmje-recommendations.pdf"]
+    },
+    "resources": [
+      ["Document starter and example", "https://github.com/DeepWaterIMR/wise-writing/tree/main/examples"]
+    ]
+  },
+  "wise-presentations": {
+    "intro": "Turn an analysis or report into a scientific talk with a reusable Quarto RevealJS template and a slide review workflow.",
+    "uses": [
+      ["Plan the talk", "Agree on the audience, duration, and main message. Draft a slide plan that pairs each message with supporting evidence."],
+      ["Choose layouts", "Give figures and tables room to work. Use layouts such as full-height figures, figure tabs, or a prompt beside its result."],
+      ["Connect the analysis", "Read results from project-relative files so figures, tables, and slides can be regenerated as the analysis changes."],
+      ["Review and share the deck", "Inspect screenshots and a contact sheet for layout problems, then share the rendered presentation as a self-contained HTML file."]
+    ],
+    "setup": "Add wise-presentations through Fiskwise or install its skills separately. Ask your agent to add the project starter when you are ready to build a deck. Rendering requires R and the Quarto CLI.",
+    "resources": [
+      ["Browse the slide layout catalogue", "https://deepwaterimr.github.io/wise-presentations/#layouts"]
+    ]
+  },
+  "BAIT": {
+    "intro": "Use the Biotic AI Toolkit to query IMR’s NMD Biotic database from R, analyse survey data, and prepare Norwegian commercial catch series.",
+    "uses": [
+      ["Query Biotic data", "Connect to your local DuckDB database and summarise stations, catches, or fish measurements by survey, species, or year."],
+      ["Analyse survey catches", "Check which samples qualify for the analysis, distinguish true zeros from missing records, and account for sampling effort before estimating catch rates or density."],
+      ["Map catches and study life histories", "Produce station and catch maps, interactive dashboards, or plots of maturity, growth, and length–weight relationships."],
+      ["Prepare commercial catch series", "Use RstoxUtils to aggregate Norwegian sales notes or electronic logbook records for an assessment or catch-rate analysis."]
+    ],
+    "setup": "Install BAIT’s agent skills, then connect to an existing local Biotic database or choose database setup separately. Classify data and outputs under IMR rules before sharing.",
+    "resources": [
+      ["BAIT privacy guidance", "https://deepwaterimr.github.io/BAIT/privacy.html"],
+      ["Query, mapping, and analysis recipes", "https://github.com/DeepWaterIMR/BAIT/tree/main/cookbook"]
+    ]
+  },
+  "index-wise": {
+    "intro": "Build and validate an sdmTMB survey index that tracks relative abundance or biomass and can feed a stock assessment.",
+    "uses": [
+      ["Prepare the survey observations", "Define the study region, qualify bottom-trawl catches, compute swept-area densities, and document the input data."],
+      ["Fit and validate the index", "Fit a spatiotemporal model, compare candidates and sensitivities, then export the selected annual index with uncertainty and a report."],
+      ["Review an existing model", "Bring an existing sdmTMB project for help with prediction grids, model diagnostics, or index estimation."],
+      ["Standardise commercial catch rates", "Use the optional CPUE workflow to prepare logbook or sales-note records and estimate a separate commercial index with glmmTMB, mgcv, or sdmTMB."]
+    ],
+    "setup": "Use BAIT when the input is IMR Biotic data and wise-writing when scaffolding reports. Start with the species, surveys, and study region, or point your agent to an existing model.",
+    "resources": [
+      ["Worked beaked redfish example", "https://github.com/DeepWaterIMR/index-wise/tree/main/examples/redfish"],
+      ["Synthetic snow crab CPUE example", "https://github.com/DeepWaterIMR/index-wise/tree/main/examples/snowcrab-ers-cpue"]
+    ]
+  },
+  "spict-wise": {
+    "intro": "Use SPiCT, a biomass-dynamic stock assessment model, to turn catch and abundance series into an assessment and catch advice.",
+    "uses": [
+      ["Prepare the assessment inputs", "Compile the catch series and abundance index, record their sources, and check catch units and survey timing."],
+      ["Fit and diagnose the model", "Fit SPiCT, review convergence and retrospective patterns, and examine projections and catch scenarios."],
+      ["Compare assumptions", "Test sensitivity to priors, data, and model settings during a benchmark, or review an existing SPiCT fit."],
+      ["Write the chapter and advice", "Produce a working-group chapter and catch advice sheet from the same saved model results so both report consistent estimates."]
+    ],
+    "setup": "Use wise-writing when scaffolding a new assessment project. Start with the stock, catch series, and abundance index, or point your agent to an existing SPiCT fit.",
+    "resources": [
+      ["Worked beaked redfish example", "https://github.com/DeepWaterIMR/spict-wise/tree/main/examples/redfish"],
+      ["SPiCT model documentation", "https://github.com/DTUAqua/spict"]
+    ]
+  },
+  "gadget-wise": {
+    "intro": "Build or review structured fisheries models with gadget3, from specifying stocks and fleets to fitting the model and projecting catch scenarios.",
+    "uses": [
+      ["Set up model inputs", "Scaffold an IMR or Icelandic project layout and compile catches, survey indices, and biological inputs from BAIT, mfdb, or your own files."],
+      ["Build and fit the model", "Specify stocks, fleets, and likelihood components, then optimise the parameters and reweight the data components."],
+      ["Diagnose an existing fit", "Check convergence, test sensitivity to starting values, and run retrospective and leave-out analyses in an existing gadget3 project."],
+      ["Project and report", "Estimate reference points, evaluate catch scenarios, and prepare an assessment or benchmark chapter with wise-writing."]
+    ],
+    "setup": "For a new project, tell your agent the stock, fleets, available data, and preferred layout. For an existing model, start by pointing it to the model folder and describing the issue.",
+    "resources": [
+      ["Synthetic stock example", "https://github.com/DeepWaterIMR/gadget-wise/tree/main/examples/synthetic"],
+      ["gadget3 documentation", "https://gadget-framework.github.io/gadget3/"]
+    ]
+  }
+}

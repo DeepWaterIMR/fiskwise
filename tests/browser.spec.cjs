@@ -13,7 +13,8 @@ test('component catalogue, planned status, assets and responsive layout', async 
   await expect(page.locator('.pack')).toHaveCount(packages.filter(packageInfo => packageInfo.kind === 'knowledge').length);
   await expect(page.locator('.r-package')).toHaveCount(packages.filter(packageInfo => packageInfo.kind === 'r').length);
   await expect(page.locator('.planned')).toHaveCount(packages.filter(packageInfo => packageInfo.status === 'planned').length);
-  await expect(page.locator('#gadget-wise')).toContainText('No installable knowledge pack');
+  await expect(page.locator('#gadget-wise').getByRole('link', { name: 'How to use this pack' }))
+    .toHaveAttribute('href', 'gadget-wise.html');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await expect.poll(() => page.locator('img').evaluateAll(images => images.filter(img => !img.complete || img.naturalWidth === 0).map(img => ({src:img.src,complete:img.complete,width:img.naturalWidth}))), {message:JSON.stringify(failures)}).toEqual([]);
   await page.getByRole('link', { name: 'Explore the knowledge packs' }).click();
@@ -38,7 +39,7 @@ test('getting-started guide keeps lifecycle prompts accessible and responsive', 
   await expect(page.locator('#prompt-uninstall')).toHaveText('uninstall Fiskwise');
   await expect(page.getByRole('button', { name: 'Copy prompt' })).toHaveCount(3);
   await expect(page.getByText('Quarto CLI is a separate application')).toBeVisible();
-  await expect(page.getByText(/gadget-wise.*planned/i)).toBeVisible();
+  await expect(page.getByRole('article').filter({ hasText: 'Model workflows' })).toContainText('gadget-wise');
   await expect(page.getByRole('link', { name: /BAIT privacy guidance/ })).toHaveAttribute('href', 'https://deepwaterimr.github.io/BAIT/privacy.html');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 
@@ -72,15 +73,52 @@ test('keyboard users reach a visible skip link and main content', async ({ page 
   await expect(page).toHaveURL(/#main$/);
 });
 
-for (const component of packages.filter(p => p.overview)) {
-  test(`${component.name} landing page has a usable prompt without JavaScript`, async ({ browser }) => {
-    const context = await browser.newContext({ javaScriptEnabled: false });
-    const page = await context.newPage();
-    await page.goto((process.env.FISKWISE_TEST_URL || 'http://127.0.0.1:8766/fiskwise/') + component.name + '.html');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(component.name);
-    await expect(page.locator('pre')).toContainText(component.repo);
-    await expect(page.locator('.example-prompt')).toHaveText(component.example);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-    await context.close();
-  });
-}
+test.describe('pack overviews without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  for (const component of packages.filter(p => p.overview)) {
+    test(`${component.name} shows use cases, prompts, and resources`, async ({ page }) => {
+      await page.goto(`./${component.name}.html`);
+      const headings = await page.getByRole('main').getByRole('heading').evaluateAll(
+        elements => elements.map(element => element.tagName)
+      );
+      expect(headings).toEqual([
+        'H1', 'H2', 'H3', 'H3', 'H3', 'H3',
+        ...(component.name === 'wise-writing' ? ['H2'] : []),
+        'H2', 'H2', 'H2'
+      ]);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(component.name);
+      await expect(page.locator('.pack-overview-title img')).toHaveJSProperty('complete', true);
+      await expect(page.locator('.pack-overview-title img')).not.toHaveJSProperty('naturalWidth', 0);
+      await expect(page.locator('.example-prompt')).toHaveText(
+        [component.example, component.example_existing].filter(Boolean)
+      );
+      await expect(page.locator('pre')).toHaveText(component.install || `Install ${component.repo}`);
+      const textFits = await page.locator('main pre, main blockquote').evaluateAll(elements =>
+        elements.every(el => el.scrollWidth <= el.clientWidth && getComputedStyle(el).userSelect !== 'none')
+      );
+      expect(textFits).toBe(true);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+      await expect(page.getByRole('link', { name: 'All knowledge packs' })).toHaveAttribute('href', './#knowledge-packs');
+      await expect(page.getByRole('link', { name: 'Fiskwise installation and update guide' }))
+        .toHaveAttribute('href', 'getting-started.html');
+      await expect(page.getByRole('link', { name: 'Read the pack README' }))
+        .toHaveAttribute('href', `${component.repo}/blob/main/README.md`);
+      if (component.name === 'wise-writing') {
+        await expect(page.getByRole('heading', { name: 'You are the author' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'ICMJE Recommendations' }))
+          .toHaveAttribute('href', 'https://www.icmje.org/icmje-recommendations.pdf');
+      }
+
+      await page.keyboard.press('Tab');
+      const skipLink = page.getByRole('link', { name: 'Skip to content' });
+      await expect(skipLink).toBeFocused();
+      expect((await skipLink.boundingBox()).y).toBeGreaterThanOrEqual(0);
+      await page.keyboard.press('Enter');
+      await expect(page).toHaveURL(/#main$/);
+      await page.keyboard.press('Tab');
+      await expect(page.getByRole('link', { name: 'All knowledge packs' })).toBeFocused();
+    });
+  }
+});

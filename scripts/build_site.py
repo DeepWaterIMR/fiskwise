@@ -43,10 +43,102 @@ def inject_version(website, version, release_date):
 def link(url, label, cls=""):
     return f'<a class="{cls}" href="{html.escape(url, quote=True)}">{label}</a>'
 
+
+def render_pack_overview(pack, content, header, footer):
+    name = html.escape(pack['name'])
+    overview = html.escape(pack['overview'])
+    intro = html.escape(content['intro'])
+    icon = html.escape(pack['icon'])
+    accent = html.escape(pack['accent'])
+    header = header.replace('Getting started — Fiskwise', f'{name} — Fiskwise')
+    header = header.replace('https://deepwaterimr.github.io/fiskwise/getting-started.html', overview)
+    header = header.replace('./#get-started" aria-current="page"', 'getting-started.html"')
+    header = header.replace(
+        'Install, update, and remove Fiskwise with clear previews, optional dependencies, and researcher control.',
+        intro,
+    )
+
+    uses = '\n'.join(
+        f'        <li><h3>{html.escape(title)}</h3><p>{html.escape(detail)}</p></li>'
+        for title, detail in content['uses']
+    )
+    examples = [('Example request', pack['example'])]
+    if pack.get('example_existing'):
+        examples.append(('For an existing project', pack['example_existing']))
+    prompts = '\n'.join(
+        f'        <p class="pack-prompt-label">{label}</p>'
+        f'<blockquote class="example-prompt">{html.escape(prompt)}</blockquote>'
+        for label, prompt in examples
+    )
+    install = html.escape(pack.get('install') or f"Install {pack['repo']}")
+    setup = html.escape(content['setup'])
+    resources = [('Read the pack README', f"{pack['repo']}/blob/main/README.md"), *content['resources']]
+    resources.extend((item['name'], item['url']) for item in pack.get('supporting_tools', []))
+    resource_links = '\n'.join(f'        <li>{link(url, html.escape(label))}</li>' for label, url in resources)
+
+    note = ''
+    if 'note' in content:
+        title = html.escape(content['note']['title'])
+        detail = html.escape(content['note']['text'])
+        label, url = content['note']['link']
+        note = f'''      <aside class="pack-note" aria-labelledby="pack-note-title">
+        <h2 id="pack-note-title">{title}</h2>
+        <p>{detail}</p>
+        {link(url, html.escape(label))}
+      </aside>'''
+
+    body = f'''  <main id="main" class="pack-overview" style="--pack-accent:{accent}">
+    <div class="container pack-overview-inner">
+      <header class="pack-overview-hero">
+        <a class="pack-overview-back" href="./#knowledge-packs"><span aria-hidden="true">←</span> All knowledge packs</a>
+        <div class="pack-overview-title">
+          <img src="assets/icons/{icon}.svg" alt="" width="48" height="48">
+          <h1>{name}</h1>
+        </div>
+        <p>{intro}</p>
+      </header>
+
+      <section aria-labelledby="pack-uses-title">
+        <h2 id="pack-uses-title">What you can do</h2>
+        <ul class="pack-uses" role="list">
+{uses}
+        </ul>
+      </section>
+{note}
+
+      <div class="pack-overview-next">
+        <section aria-labelledby="pack-start-title">
+          <h2 id="pack-start-title">Get started</h2>
+{prompts}
+        </section>
+        <section class="pack-overview-setup" aria-labelledby="pack-setup-title">
+          <h2 id="pack-setup-title">Set up the pack</h2>
+          <p>{setup}</p>
+          <p class="pack-prompt-label">Standalone install prompt</p>
+          <pre><code>{install}</code></pre>
+          <a href="getting-started.html">Fiskwise installation and update guide</a>
+        </section>
+      </div>
+
+      <section class="pack-overview-resources" aria-labelledby="pack-resources-title">
+        <h2 id="pack-resources-title">Read more</h2>
+        <ul>
+{resource_links}
+        </ul>
+      </section>
+    </div>
+  </main>'''
+    return header + body + footer
+
+
 def main():
     version_source = VERSION_FILE.read_bytes()
     version, release_date = read_version()
     packages = json.loads((ROOT / "packages.json").read_text())
+    overviews = json.loads((ROOT / "scripts/pack_overviews.json").read_text())
+    overview_names = {pack['name'] for pack in packages if pack.get('overview')}
+    if overviews.keys() != overview_names:
+        raise ValueError("Pack overview copy must match the packs with overview URLs in packages.json.")
     dest = ROOT / "dist"
     if dest.exists():
         shutil.rmtree(dest)
@@ -75,26 +167,16 @@ def main():
     page = (ROOT / "site/index.html").read_text()
     page = page.replace("<!-- KNOWLEDGE_PACKS -->", "\n".join(cards)).replace("<!-- R_PACKAGES -->", "\n".join(tools)).replace("<!-- PLANNED_PACKS -->", "\n".join(planned))
     (dest / "index.html").write_text(page)
-    # Small pack landing pages share the hub design and canonical inventory.
+    # The pack pages share the guide's navigation and release footer.
     shell = (ROOT / 'site/getting-started.html').read_text()
     header, tail = shell.split('<main id="main">', 1)
     footer = tail.split('</main>', 1)[1].split('  <script>', 1)[0] + '</body>\n</html>\n'
     for pack in packages:
         if not pack.get('overview'):
             continue
-        name = html.escape(pack['name'])
-        page_header = header.replace('Getting started — Fiskwise', name + ' — Fiskwise')
-        page_header = page_header.replace('https://deepwaterimr.github.io/fiskwise/getting-started.html', pack['overview'])
-        page_header = page_header.replace(' aria-current="page"', '')
-        page_header = page_header.replace('Install, update, and remove Fiskwise with clear previews, optional dependencies, and researcher control.', html.escape(pack['purpose'], quote=True))
-        supporting = ''.join('<li>' + link(item['url'], html.escape(item['name'])) + ' — ' + html.escape(item['purpose']) + '</li>' for item in pack.get('supporting_tools', []))
-        documentation = link(pack['repo'], 'Read the pack instructions on GitHub')
-        if pack.get('site') and pack['site'] != pack['overview']:
-            documentation += ' · ' + link(pack['site'], 'Open specialist documentation')
-        body = f'''<main id="main"><section class="guide-hero container"><p class="eyebrow">FISKWISE / {html.escape(pack['role'].upper())}</p><h1>{name}</h1><p>{html.escape(pack['purpose'])}</p><p>{html.escape(pack['detail'])}</p><p>{documentation}</p></section>
-        <section class="guide-section guide-tint"><div class="container"><div class="guide-heading"><h2>Start with your question</h2><p class="example-prompt">{html.escape(pack['example'])}</p>{('<p>Or, in an existing project:</p><p class="example-prompt">' + html.escape(pack['example_existing']) + '</p>') if pack.get('example_existing') else ''}</div><p>The agent reads the relevant instructions, inspects your inputs and proposes an approach. Review scientific choices, outputs and limitations; the researcher directs and remains responsible for the work.</p></div></section>
-        <section class="guide-section container"><div class="guide-heading"><h2>Use it independently or with Fiskwise</h2></div><p>For the full ecosystem, follow the <a href="getting-started.html">installation and update guide</a>. To use this pack alone, tell your agent:</p><div class="prompt-card"><pre>install {html.escape(pack['repo'])}</pre></div><p>Then describe your task. The pack retains its own setup and update instructions. R packages and system tools are installed only with the applicable permission.</p>{('<h3>Supporting tools</h3><ul>' + supporting + '</ul>') if supporting else ''}<p><a href="./#knowledge-packs">Explore related packs →</a></p></section></main>'''
-        (dest / (pack['name'] + '.html')).write_text(page_header + body + footer)
+        name = pack['name']
+        page = render_pack_overview(pack, overviews[name], header, footer)
+        (dest / (name + '.html')).write_text(page)
 
     shutil.copy2(ROOT / "packages.json", dest / "packages.json")
     for name in ["MIGRATION.md", "BRAND.md", "CONTRIBUTING.md", "LICENSE"]:
