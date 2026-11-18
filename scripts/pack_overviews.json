@@ -32,7 +32,10 @@
     ],
     "setup": "Add wise-presentations through Fiskwise or install its skills separately. Ask your agent to add the project starter when you are ready to build a deck. Rendering requires R and the Quarto CLI.",
     "resources": [
-      ["Browse the slide layout catalogue", "https://deepwaterimr.github.io/wise-presentations/#layouts"]
+      ["Browse the slide layout catalogue", "https://deepwaterimr.github.io/wise-presentations/#layouts"],
+      ["R", "https://www.r-project.org/"],
+      ["Quarto", "https://quarto.org/"],
+      ["tidyverse", "https://tidyverse.org/"]
     ]
   },
   "BAIT": {
