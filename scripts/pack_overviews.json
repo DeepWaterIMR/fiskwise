@@ -14,7 +14,12 @@
       "link": ["ICMJE Recommendations", "https://www.icmje.org/icmje-recommendations.pdf"]
     },
     "resources": [
-      ["Document starter and example", "https://github.com/DeepWaterIMR/wise-writing/tree/main/examples"]
+      ["Document starter and example", "https://github.com/DeepWaterIMR/wise-writing/tree/main/examples"],
+      ["R", "https://www.r-project.org/"],
+      ["Quarto", "https://quarto.org/"],
+      ["tidyverse", "https://tidyverse.org/"],
+      ["ggOceanMaps", "https://mikkovihtakari.github.io/ggOceanMaps/"],
+      ["ggFishPlots", "https://deepwaterimr.github.io/ggFishPlots/"]
     ]
   },
   "wise-presentations": {
