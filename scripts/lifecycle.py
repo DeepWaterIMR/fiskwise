@@ -80,6 +80,19 @@ class Manager:
             'consent': {'r_packages': None}, 'databases': [], 'history': []}
         if self.state.get('schema_version') != 1:
             raise ValueError('Unsupported registry schema; no changes made.')
+        self.notices = []
+
+    def internal(self, name):
+        return self.inventory.get(name, {}).get('visibility') == 'internal'
+
+    def accessible(self, name):
+        """Read-only access probe for an internal component; never prompts for credentials."""
+        try:
+            result = subprocess.run(['git', 'ls-remote', self.inventory[name]['repo']], capture_output=True,
+                                    text=True, timeout=60, env=dict(os.environ, GIT_TERMINAL_PROMPT='0'))
+        except (OSError, subprocess.TimeoutExpired):
+            return False
+        return result.returncode == 0
 
     def save(self):
         self.state_dir.mkdir(parents=True, exist_ok=True)
@@ -106,11 +119,14 @@ class Manager:
 
     def ordered(self, include=(), installed=False, adopt=False):
         requested = (list(self.state['components']) if installed else
-                     [n for n, p in self.inventory.items() if p['kind'] == 'knowledge' and p.get('core')])
+                     [n for n, p in self.inventory.items()
+                      if p['kind'] == 'knowledge' and p.get('core') and not self.internal(n)])
         requested = [n for n in requested if n != 'fiskwise'] + list(include)
         if adopt:
+            # Internal components are opt-in: only an explicit include brings them in.
             for n, p in self.inventory.items():
-                if p['kind'] == 'knowledge' and p['status'] == 'available' and (self.workspace / n / 'AGENTS.md').exists():
+                if (p['kind'] == 'knowledge' and p['status'] == 'available' and not self.internal(n)
+                        and (self.workspace / n / 'AGENTS.md').exists()):
                     requested.append(n)
         visiting, done, order = set(), set(), []
         def visit(name):
@@ -237,8 +253,11 @@ data and keep raw data local. Package-install consent is recorded in
         for name in names:
             path = self.location(name)
             if not path.exists():
-                actions.append({'action': 'clone', 'component': name, 'path': str(path),
-                                'repo': self.inventory[name]['repo']})
+                action = {'action': 'clone', 'component': name, 'path': str(path),
+                          'repo': self.inventory[name]['repo']}
+                if self.internal(name):
+                    action['access'] = 'IMR-internal: git ls-remote checks access first; skipped without IMR GitLab access'
+                actions.append(action)
         for skill, (owner, source) in self.sources(names).items():
             for parent in self.skill_targets(self.agents(selected)):
                 target = parent / skill
@@ -324,12 +343,20 @@ data and keep raw data local. Package-install consent is recorded in
     def install(self, include=(), selected=None, adopt=False, allow_clone=True, prefer_copy=False):
         names = self.ordered(include, adopt=adopt)
         agents = self.agents(selected)
+        skipped = {}
         for name in names:
+            missing = [d for d in self.inventory.get(name, {}).get('dependencies', []) if d in skipped]
+            if missing:
+                skipped[name] = f'{name} depends on {missing[0]}, which was skipped.'
+                continue
             path = self.location(name)
             created = not path.exists()
             if created:
                 if not allow_clone:
                     raise ValueError(f'Missing pack checkout: {path}')
+                if self.internal(name) and not self.accessible(name):
+                    skipped[name] = f'{name} is IMR-internal and requires IMR GitLab access; skipped.'
+                    continue
                 path.parent.mkdir(parents=True, exist_ok=True)
                 subprocess.run(['git', 'clone', self.inventory[name]['repo'], str(path)], check=True)
             if not (path / 'AGENTS.md').exists():
@@ -337,6 +364,8 @@ data and keep raw data local. Package-install consent is recorded in
             old = self.state['components'].get(name, {})
             self.state['components'][name] = dict(old, path=str(path), origin=old.get('origin', 'created' if created else 'adopted'), **pack_version(path))
             self.save()
+        names = [name for name in names if name not in skipped]
+        self.notices.extend(skipped.values())
         for skill, (owner, source) in self.sources(names).items():
             for parent in self.skill_targets(agents):
                 target = parent / skill
@@ -359,7 +388,8 @@ data and keep raw data local. Package-install consent is recorded in
             if (path / '.git').exists():
                 self.state['components'][name]['version_hook'] = enable_hook(path, apply=True)
         self.state['enabled'] = True
-        self.state['history'].append({'operation': 'install', 'at': stamp(), 'components': names})
+        self.state['history'].append({'operation': 'install', 'at': stamp(), 'components': names,
+                                      **({'skipped': skipped} if skipped else {})})
         self.save()
         return self.state
 
@@ -397,8 +427,11 @@ data and keep raw data local. Package-install consent is recorded in
 
     def update(self, apply=False):
         results = []
+        # An internal component whose checkout is absent is skipped silently.
+        absent = {name for name, p in self.state['components'].items()
+                  if self.internal(name) and not Path(p['path']).exists()}
         for name in self.ordered(installed=True):
-            if name not in self.state['components']:
+            if name not in self.state['components'] or name in absent:
                 continue
             p = self.state['components'][name]
             path = Path(p['path'])
@@ -458,7 +491,7 @@ data and keep raw data local. Package-install consent is recorded in
                     except ValueError as error:
                         results.append({'status': 'modified-registration-preserved', 'detail': str(error)})
             for reg in list(self.state['registrations']):
-                if reg['kind'] != 'skill' or reg['path'] in desired:
+                if reg['kind'] != 'skill' or reg['path'] in desired or reg['owner'] in absent:
                     continue
                 target = Path(reg['path'])
                 # Legacy BAIT auxiliary copies must refresh too. Keep retired skills

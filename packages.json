@@ -384,6 +384,36 @@
     "overview": "https://deepwaterimr.github.io/fiskwise/gadget-wise.html"
   },
   {
+    "name": "hpc-wise",
+    "kind": "knowledge",
+    "visibility": "internal",
+    "label": "Run long analyses on institute compute",
+    "purpose": "IMR-internal: running long analyses on institute compute resources. Requires IMR GitLab access; usage instructions are in the GitLab README.",
+    "detail": "IMR-internal knowledge pack. Requires IMR GitLab access; installation and usage instructions are in the GitLab README.",
+    "repo": "https://git.imr.no/r_provisioning/knowledge-packs/hpc-wise",
+    "site": null,
+    "status": "available",
+    "icon": "compute",
+    "accent": "#55606E",
+    "skills": "hpc-wise-install; hpc-wise-update; internal compute skills",
+    "install": null,
+    "owner": "deepwater",
+    "license": null,
+    "core": false,
+    "dependencies": [],
+    "skill_roots": [
+      "skills"
+    ],
+    "install_skill": "hpc-wise-install",
+    "update_skill": "hpc-wise-update",
+    "lifecycle": {
+      "availability": "available",
+      "managed_updates": true,
+      "database_refresh": false
+    },
+    "role": "compute"
+  },
+  {
     "name": "ggOceanMaps",
     "kind": "r",
     "purpose": "Plot scientific data on ocean maps with bathymetry.",

@@ -8,7 +8,22 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from build_site import read_version
+from build_site import INTERNAL_LABEL, is_internal, read_version
+
+
+def check_internal_card(package, home_source, sources, dist):
+    """An internal component gets one minimal card: label, one repository link, no instructions."""
+    name = package["name"]
+    start = home_source.find(f'<article class="pack pack-internal" id="{name}"')
+    assert start >= 0, f"Missing internal card for {name}"
+    card = home_source[start:home_source.index("</article>", start)]
+    assert f'<span class="pack-type">{INTERNAL_LABEL}</span>' in card, f"Internal card {name} lacks its label"
+    assert card.count("href=") == 1 and f'href="{package["repo"]}"' in card, f"Internal card {name} must link only to its repo"
+    assert "install" not in card.lower() and "<code>" not in card, f"Internal card {name} must not carry instructions"
+    assert not package.get("overview") and not (dist / f"{name}.html").exists(), f"Internal {name} must not have an overview page"
+    for path, source in sources.items():
+        if path != (dist / "index.html").resolve():
+            assert name not in source, f"Internal {name} appears outside its card on {path.name}"
 
 
 class Page(HTMLParser):
@@ -51,6 +66,8 @@ def main():
     knowledge_count = sum(package["kind"] == "knowledge" for package in packages)
     r_package_count = sum(package["kind"] == "r" for package in packages)
     planned_count = sum(package["status"] == "planned" for package in packages)
+    internal_count = sum(is_internal(package) for package in packages)
+    assert all(package.get("visibility", "public") in ("public", "internal") for package in packages)
     assert len(pages[home].articles) == knowledge_count + r_package_count
     assert home_source.count('<span class="planned">Planned</span>') == planned_count
     assert "<!-- KNOWLEDGE_PACKS -->" not in home_source
@@ -67,6 +84,8 @@ def main():
             assert package["site"] in pages[home].links, f"Missing {package['name']} documentation link"
         if package["repo"]:
             assert package["repo"] in pages[home].links, f"Missing {package['name']} repository link"
+        if is_internal(package):
+            check_internal_card(package, home_source, sources, dist)
 
     for page_path, parser in pages.items():
         for url in parser.links:
@@ -90,7 +109,7 @@ def main():
 
     print(
         f"PASS: {len(pages)} pages; {knowledge_count} knowledge packs, {r_package_count} R tools, "
-        f"{planned_count} planned entries; local links, anchors, SVGs, and v{version} ({release_date}) footers"
+        f"{planned_count} planned and {internal_count} internal entries; local links, anchors, SVGs, and v{version} ({release_date}) footers"
     )
 
 

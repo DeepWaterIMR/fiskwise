@@ -61,6 +61,8 @@ def main(argv=None):
     else:
         result = manager.database_remove(args.path, args.confirm, args.quarantine)
     print(json.dumps(result, indent=2))
+    for notice in manager.notices:
+        print(notice, file=sys.stderr)
 
 
 if __name__ == '__main__':

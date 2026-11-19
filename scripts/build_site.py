@@ -44,6 +44,25 @@ def link(url, label, cls=""):
     return f'<a class="{cls}" href="{html.escape(url, quote=True)}">{label}</a>'
 
 
+INTERNAL_LABEL = "IMR internal"
+
+
+def is_internal(pack):
+    return pack.get("visibility") == "internal"
+
+
+def render_internal_card(pack):
+    """Minimal public card: name, purpose and one repository link. Usage lives in the internal README."""
+    if pack.get("overview") or pack.get("install") or not pack.get("repo"):
+        raise ValueError(f"Internal component {pack['name']} must have a repo and no overview or install prompt.")
+    name = html.escape(pack["name"])
+    repo = link(pack["repo"], 'IMR GitLab <span aria-hidden="true">↗</span>', 'primary-link')
+    return f'''<article class="pack pack-internal" id="{name}" style="--pack-accent:{pack['accent']}">
+              <div class="pack-top"><img src="assets/icons/{pack['icon']}.svg" alt="" width="44" height="44"><span class="pack-type">{INTERNAL_LABEL}</span></div>
+              <h3>{name}</h3><p class="pack-label">{html.escape(pack['label'])}</p>
+              <p>{html.escape(pack['purpose'])}</p><div class="pack-links">{repo}</div></article>'''
+
+
 def render_pack_overview(pack, content, header, footer):
     name = html.escape(pack['name'])
     overview = html.escape(pack['overview'])
@@ -146,6 +165,9 @@ def main():
     shutil.copytree(ROOT / "assets", dest / "assets")
     cards, planned, tools = [], [], []
     for p in packages:
+        if is_internal(p):
+            cards.append(render_internal_card(p))
+            continue
         name = html.escape(p["name"])
         status = '<span class="planned">Planned</span>' if p["status"] == "planned" else ''
         links = []

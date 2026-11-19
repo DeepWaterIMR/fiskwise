@@ -15,7 +15,7 @@ run helper scripts there by absolute path. A copied skill's directory is not the
 repository root. Do not rely on `../../docs` from a registered copy.
 
 
-Use the repository lifecycle documentation above. Inspect the registry and show the update plan with `python3 scripts/fiskwise.py update`. Apply with `--apply` when software update is requested. Update installed packs only, once in dependency order, preserving selected branches, version pins, dirty or diverged checkouts. Missing/unavailable repositories must be reported, not replaced silently.
+Use the repository lifecycle documentation above. Inspect the registry and show the update plan with `python3 scripts/fiskwise.py update`. Apply with `--apply` when software update is requested. Update installed packs only, once in dependency order, preserving selected branches, version pins, dirty or diverged checkouts. Missing/unavailable repositories must be reported, not replaced silently; the exception is an internal component (`"visibility": "internal"`) whose checkout is absent, which is skipped silently.
 
 Delegate any specialist post-update setup to the pack's existing update entry point in **managed mode**, avoiding recursive ecosystem updates and repeated prerequisite updates. Refresh canonical agent registrations only when fingerprints still match; preserve user-modified copies. Record version plus Git revision in the report.
 

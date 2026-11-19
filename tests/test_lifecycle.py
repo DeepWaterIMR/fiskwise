@@ -433,6 +433,64 @@ class LifecycleTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Symlink database paths"):
             self.manager.database_plan(alias)
 
+    def internal_checkout(self, path):
+        skill = path / "skills/internal-skill"
+        skill.mkdir(parents=True)
+        (path / "AGENTS.md").write_text("internal fixture\n")
+        (skill / "SKILL.md").write_text("---\nname: internal-skill\ndescription: fixture\n---\n\nFixture instructions.\n")
+
+    def add_internal_pack(self, repo):
+        inventory = json.loads((self.source_root / "packages.json").read_text())
+        inventory.append({"name": "internal-pack", "kind": "knowledge", "status": "available",
+                          "visibility": "internal", "core": False, "dependencies": [],
+                          "skill_roots": ["skills"], "repo": str(repo)})
+        (self.source_root / "packages.json").write_text(json.dumps(inventory))
+        self.manager = self.new_manager()
+
+    def test_internal_component_is_opt_in(self):
+        self.internal_checkout(self.workspace / "internal-pack")
+        self.add_internal_pack(self.base / "unreachable.git")
+        self.assertNotIn("internal-pack", self.manager.install_plan()["components"])
+        self.assertNotIn("internal-pack", self.manager.install_plan(adopt=True)["components"])
+        self.assertIn("internal-pack", self.manager.install_plan(include=["internal-pack"])["components"])
+
+    def test_internal_component_without_access_is_skipped_with_notice(self):
+        self.add_internal_pack(self.base / "unreachable.git")
+        clone = next(a for a in self.manager.install_plan(include=["internal-pack"])["actions"] if a["action"] == "clone")
+        self.assertIn("IMR GitLab access", clone["access"])
+        with patch.object(lifecycle.subprocess, "run", wraps=lifecycle.subprocess.run) as run:
+            state = self.manager.install(include=["internal-pack"], selected=["codex"])
+        commands = [list(call.args[0][:2]) for call in run.call_args_list if call.args]
+        self.assertIn(["git", "ls-remote"], commands)
+        self.assertNotIn(["git", "clone"], commands)
+        self.assertNotIn("internal-pack", state["components"])
+        self.assertIn("wise-writing", state["components"])
+        self.assertEqual(self.manager.notices, ["internal-pack is IMR-internal and requires IMR GitLab access; skipped."])
+        self.assertIn("internal-pack", state["history"][-1]["skipped"])
+        self.assertFalse((self.workspace / "internal-pack").exists())
+
+    def test_internal_component_with_access_is_cloned_on_request(self):
+        source = self.base / "internal-source"
+        self.internal_checkout(source)
+        self.git_repo(source)
+        bare = self.base / "internal.git"
+        self.attach_local_bare_remote(source, bare)
+        self.add_internal_pack(bare)
+        state = self.manager.install(include=["internal-pack"], selected=["codex"])
+        self.assertEqual(state["components"]["internal-pack"]["origin"], "created")
+        self.assertTrue((self.home / ".agents/skills/internal-skill").is_symlink())
+        self.assertEqual(self.manager.notices, [])
+
+    def test_update_skips_absent_internal_component_silently(self):
+        checkout = self.workspace / "internal-pack"
+        self.internal_checkout(checkout)
+        self.add_internal_pack(self.base / "unreachable.git")
+        self.manager.install(include=["internal-pack"], selected=["codex"], allow_clone=False)
+        shutil.rmtree(checkout)
+        results = self.new_manager().update(apply=True)
+        self.assertNotIn("internal-", json.dumps(results))
+        self.assertIn("wise-writing", [item.get("component") for item in results])
+
     def test_revoked_consent_remains_false_across_manager_reload(self):
         self.manager.set_consent(True)
         self.manager.set_consent(False)

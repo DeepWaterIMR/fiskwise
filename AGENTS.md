@@ -27,6 +27,9 @@ Preserve canonical Fiskwise spelling, unrelated instructions, and the consent le
 
 Fiskwise is the umbrella for the DeepWaterIMR fisheries-science knowledge packs.
 Read `packages.json` for canonical component names, destinations, and status.
+Entries with `"visibility": "internal"` are IMR-internal and opt-in: the site shows a
+minimal card, usage lives in their GitLab README, and no internal details belong in this
+public repository ([LIFECYCLE.md](docs/LIFECYCLE.md#component-visibility)).
 
 - The public hub is hand-authored HTML/CSS in `site/`, built by `python3 scripts/build_site.py`.
 - Run `python3 scripts/check_site.py` after building. Never edit `dist/` directly.
