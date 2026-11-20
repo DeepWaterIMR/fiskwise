@@ -17,6 +17,10 @@ or the checkout containing this skill. Run its scripts by resolved absolute path
    Do not print private configuration values or database records into the report.
    Count `status: pending` entries in `~/.fiskwise/feedback/pending.md`, if present, and
    offer to review them with `fiskwise-feedback`.
+   Local databases belong in the shared data folder `~/Fiskwise_data/` (Windows:
+   `%USERPROFILE%\Fiskwise_data\`). Report any registered database that still sits directly
+   in the home folder (for example `~/IMR_biotic_BES_database/`) as a legacy location: it
+   works, but offer the migration described in BAIT's `biotic-server-setup` Section 4.
 4. A check is read-only. For an explicit repair request, follow `fiskwise-install` to resume
    ordinary setup without replacing user modifications. Package/system/database consent
    rules still apply. For updates, follow `fiskwise-update`; never erase the registry to

@@ -53,6 +53,8 @@ python3 scripts/fiskwise.py uninstall --apply --confirm PREVIEW_DIGEST
 
 Adopted entries are retained by default; separately preview `--include-adopted` to detach them and restore previous registrations. Changed entries or missing/modified backups are retained. Managed instruction blocks are restored independently of surrounding text. The audit registry, component config files/backups, clones, version hooks, R packages and research projects remain. Source skill directories are never deleted.
 
+Local databases live in the shared data folder `~/Fiskwise_data/` (Windows: `%USERPROFILE%\Fiskwise_data\`, never a OneDrive-redirected Documents folder), one subfolder per database: `IMR_biotic_BES_database/` (BAIT) and `IMR_seafood_SEAT_database/` (SEAT). Databases installed earlier directly in the home folder keep working; packs fall back to that legacy location, and `fiskwise-check` offers migration.
+
 For an explicitly authorized new BAIT database, call `database-begin /absolute/new.duckdb` **before** BAIT creates it; call `database-complete TOKEN --bait-verified` only after BAIT verifies its connection. A pending token alone proves nothing. Record existing databases as adopted; never manufacture a token retrospectively.
 
 Database removal needs a separate `database-preview PATH`, user approval of exact path, size and recovery destination, then `database-remove PATH --confirm DIGEST`. The helper fails closed on unknown provenance, symlinks, WALs, open writers or unprovable closure. It uses macOS Trash or Windows Recycle Bin. Else obtain explicit approval for `--quarantine /same/filesystem/directory`. Associated files are retained, not implicitly removed. No tests use real Biotic data.
